@@ -39,19 +39,19 @@ class AuthController extends Controller
                     session()->put('department_id',$admin->department->id);
                     session()->put('role',$admin->department->slug);
                     session()->put('isAdmin',true);
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->intended(route('admin.dashboard'));
                 }else{
                     session()->put('isAdmin',false);
-                    return redirect()->route('candidate.dashboard');
+                    return redirect()->intended(route('candidate.dashboard'));
                 }
             }else{
-                return redirect('/')->with('error', 'Please Use Your @john.petra.ac.id email');
+                return redirect()->route('login')->with('error', 'Please Use Your @john.petra.ac.id email');
             }
             
         }catch(\Exception $e){
             // add error to log
             Log::error('Google Login Process Error: ' . $e->getMessage());
-            return redirect('/')->with('error', 'Something went wrong');
+            return redirect()->route('login')->with('error', 'Something went wrong');
 
         }
     }
@@ -84,16 +84,16 @@ class AuthController extends Controller
             session()->put('role',$admin->department->slug);
             session()->put('isAdmin',true);
             session()->put('name', $admin->name);
-            return redirect()->route('admin.dashboard');
+            return redirect()->intended(route('admin.dashboard'));
         }else{
             session()->put('isAdmin',false);
-            return redirect()->route('candidate.dashboard');
+            return redirect()->intended(route('candidate.dashboard'));
         }
     }
 
     function logout(Request $request) {
         $request->session()->flush();
-        return redirect()->to("/");
+        return redirect()->route('login');
     }
 
     
