@@ -21,16 +21,35 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable; 
+    protected $fillable=[
+        'name',
+        'slug',
+    ]; 
 
+    
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+
+     /**
      * Rules that applied in this model
      *
      * @var array
      */
     public static function validationRules()
     {
-        return [];
+        return [
+            'name' => 'required|string|max:100',
+            'slug' => 'required|string|max:100',
+        ];
     }
 
     /**
@@ -40,7 +59,14 @@ class Department extends Model
      */
     public static function validationMessages()
     {
-        return [];
+        return [
+            'name.required' => 'Name is required',
+            'name.string' => 'Name must be a string',
+            'name.max' => 'Name must not exceed 100 characters',
+            'slug.required' => 'Slug is required',
+            'slug.string' => 'Slug must be a string',
+            'slug.max' => 'Slug must not exceed 100 characters',
+        ];
     }
 
     /**
@@ -50,7 +76,10 @@ class Department extends Model
      */
     public function resourceData($request)
     {
-        return ModelUtils::filterNullValues([]);
+        return ModelUtils::filterNullValues([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
     }
 
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->uuid('major_id');
             $table->string('line',20);
             $table->string('meet')->nullable();
-            $table->string('spot');
+            $table->string('spot')->nullable();
             
             $table->foreign('dept_id')->references('id')->on('departments')->OnDelete('cascade');
             $table->foreign('major_id')->references('id')->on('majors')->OnDelete('cascade');

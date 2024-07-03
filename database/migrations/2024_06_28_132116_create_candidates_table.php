@@ -36,7 +36,7 @@ return new class extends Migration
             $table->json('documents')->nullable();
 
             $table->uuid('accepted_department')->nullable();
-            $table->uuid('priority_department1');
+            $table->uuid('priority_department1')->nullable(); //tetep harus diisi
             $table->uuid('priority_department2')->nullable();
             $table->unsignedTinyInteger('phase')->default(1)->comment('1:data phase,2:file phase,3:select time,4:waiting interview, 5:after interview');
 
