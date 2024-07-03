@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('interviewer_id');
+            $table->uuid('admin_id');
             $table->uuid('date_id');
             $table->uuid('candidate_id')->nullable();
             $table->integer('online')->default(0)->comment('0: onsite, 1: online');
 
             $table->integer('time');
             $table->integer('status')->default(0)->comment('0: not available, 1: available, 2: booked');
-            $table->unique(array('interviewer_id', 'date_id', 'time'));
+            $table->unique(array('admin_id', 'date_id', 'time'));
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('interviewer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('date_id')->references('id')->on('dates')->onDelete('cascade');
             $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('set null');    
         });

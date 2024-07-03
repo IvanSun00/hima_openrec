@@ -41,6 +41,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('phase')->default(1)->comment('1:data phase,2:file phase,3:select time,4:waiting interview, 5:after interview');
 
             $table->foreign('major_id')->references('id')->on('majors')->cascadeOnDelete();
+            $table->foreign('accepted_department')->references('id')->on('departments')->nullOnDelete();
+            $table->foreign('priority_department1')->references('id')->on('departments')->nullOnDelete();
+            $table->foreign('priority_department2')->references('id')->on('departments')->nullOnDelete();
 
             $table->timestamps();
         });
