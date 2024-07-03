@@ -21,7 +21,19 @@ class Major extends Model
      *
      * @var array
      */
-    protected $fillable; 
+    protected $fillable =[
+        'name',
+        'english_name',
+        'slug',
+    ]; 
+
+     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+
+     protected $hidden = ['created_at', 'updated_at'];
 
     /**
      * Rules that applied in this model
@@ -30,7 +42,11 @@ class Major extends Model
      */
     public static function validationRules()
     {
-        return [];
+        return [
+            'name' => 'required|string|max:100',
+            'english_name' => 'required|string|max:100',
+            'slug' => 'required|string|max:100',
+        ];
     }
 
     /**
@@ -40,7 +56,17 @@ class Major extends Model
      */
     public static function validationMessages()
     {
-        return [];
+        return [
+            'name.required' => 'Name is required',
+            'english_name.required' => 'English name is required',
+            'slug.required' => 'Slug is required',
+            'name.string' => 'Name must be a string',
+            'english_name.string' => 'English name must be a string',
+            'slug.string' => 'Slug must be a string',
+            'name.max' => 'Name must not exceed 100 characters',
+            'english_name.max' => 'English name must not exceed 100 characters',
+            'slug.max' => 'Slug must not exceed 100 characters',
+        ];
     }
 
     /**
@@ -50,7 +76,11 @@ class Major extends Model
      */
     public function resourceData($request)
     {
-        return ModelUtils::filterNullValues([]);
+        return ModelUtils::filterNullValues([
+            'name' => $request->name,
+            'english_name' => $request->english_name,
+            'slug' => $request->slug,
+        ]);
     }
 
 
@@ -66,6 +96,7 @@ class Major extends Model
     }
 
     
+  
     /**
     * Relations associated with this model
     *
@@ -73,13 +104,23 @@ class Major extends Model
     */
     public function relations()
     {
-        return [];
+        return ['admins','candidates'];
     }
 
-     /**
+    /**
      * Space for calling the relations
      *
      *
      */
+
+    public function admins()
+    {
+        return $this->hasMany(Admin::class, 'major_id');
+    }
+
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class, 'major_id');
+    }
 
 }

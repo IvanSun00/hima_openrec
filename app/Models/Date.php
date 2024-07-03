@@ -3,25 +3,43 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
-use App\Repositories\SchedulesRepository;
-use App\Services\SchedulesService;
-use App\Http\Resources\SchedulesResource;
+use App\Repositories\DatesRepository;
+use App\Services\DatesService;
+use App\Http\Resources\DatesResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Schedules extends Model
+
+class Date extends Model
 {
     use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable; 
+    protected $fillable=[
+        'date',
+    ]; 
+
+    
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+
+     protected $hidden=[
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     /**
      * Rules that applied in this model
@@ -30,7 +48,9 @@ class Schedules extends Model
      */
     public static function validationRules()
     {
-        return [];
+        return [
+            'date' => 'required|date|date_format:Y-m-d|unique:dates,date',
+        ];
     }
 
     /**
@@ -40,7 +60,12 @@ class Schedules extends Model
      */
     public static function validationMessages()
     {
-        return [];
+        return [
+            'date.required' => 'Date is required',
+            'date.date' => 'Date must be a date',
+            'date.date_format' => 'Date must be in Y-m-d format',
+            'date.unique' => 'Date already exists',
+        ];
     }
 
     /**
@@ -62,7 +87,7 @@ class Schedules extends Model
 
     public function controller()
     {
-        return 'App\Http\Controllers\SchedulesController';
+        return 'App\Http\Controllers\DatesController';
     }
 
    
@@ -73,13 +98,18 @@ class Schedules extends Model
     */
     public function relations()
     {
-        return [];
+        return ['Schedules'];
     }
 
     /**
-     * Space for calling the relations
-     *
-     *
-     */
+    * Space for calling the relations
+    *
+    *
+    */
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'date_id');
+    }
 
 }
