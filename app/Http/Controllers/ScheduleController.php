@@ -133,10 +133,9 @@ class ScheduleController extends BaseController
             $temp['nrp'] = substr($i['candidate']['email'],0,9);
             $temp['name'] = $i['candidate']['name'];
             $temp['major'] = $i['candidate']['major']['english_name'];
-            $temp['priorityDivision1'] = $i['candidate']['priority_department1']['name'];
-            $temp['priorityDivision2'] = $i['candidate']['priority_department2'] ? $i['candidate']['priority_department2']['name'] : '-';
+            $temp['priorityDepartment1'] = $i['candidate']['priority_department1']['name'];
+            $temp['priorityDepartment2'] = $i['candidate']['priority_department2'] ? $i['candidate']['priority_department2']['name'] : '-';
             $temp['online'] = $i['online'];
-            // $temp['link'] = route('admin.interview.start',$i['id']);
             $temp['interviewer'] = $i['admin']['name'];
             $temp['inter_id'] = $i['admin_id'];
             $temp['detail'] = route('admin.candidate.detail',$i['candidate_id']);
@@ -146,18 +145,52 @@ class ScheduleController extends BaseController
         }
         $data['interview'] = json_encode($data['interview']);
 
-        // Division
+        // department
         $department = $this->department->get()->toArray();
-        // dd($division);
         foreach($department as $d){
             $temp = [];
             if($d['slug'] == 'open' || $d['slug'] == 'close' || $d['slug'] == 'bph') continue;
             $temp['id'] = $d['id'];
             $temp['name'] = $d['name'];
-            $data['division'][] = $temp;
+            $data['department'][] = $temp;
         }
-        // dd($data);
         return view('admin.interview.all',$data);
+    }
+
+    public function scheduleDepartment(Request $request)
+    {
+        $department = $request->department;
+        if($department == 'all'){
+            $interview = $this->model->where('status',2)->with(['candidate.priorityDepartment1','candidate.priorityDepartment2','date','admin','candidate.major'])->get()->toArray();
+        }else{
+            $interview = $this->model->whereHas('candidate',function($q) use ($department){
+                $q->where('priority_department1',$department)->orWhere('priority_department2',$department);
+            })->where('status',2)->with(['candidate.priorityDepartment1','candidate.priorityDepartment2','date','admin','candidate.major'])->get()->toArray();
+        }
+        $data = [];
+        foreach($interview as $i){
+            $temp = [];
+            $temp['id'] = $i['id'];
+            $dateObj = DateTime::createFromFormat('Y-m-d', $i['date']['date']);
+            $temp['date'] = $dateObj->format('l, d M Y');
+            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':00 - 0'.($i['time']+1).':00';
+            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':00 - '.($i['time']+1).':00';
+            else $temp['time'] = $i['time'].':00 - '.($i['time']+1).':00';
+            // $temp['date'] = $temp['date'].' '.$temp['time'];
+            $temp['nrp'] = substr($i['candidate']['email'],0,9);
+            $temp['name'] = $i['candidate']['name'];
+            $temp['major'] = $i['candidate']['major']['english_name'];
+            $temp['priorityDepartment1'] = $i['candidate']['priority_department1']['name'];
+            $temp['priorityDepartment2'] = $i['candidate']['priority_department2'] ? $i['candidate']['priority_department2']['name'] : '-';
+            $temp['online'] = $i['online'];
+            $temp['interviewer'] = $i['admin']['name'];
+            $temp['inter_id'] = $i['admin_id'];
+            $temp['detail'] = route('admin.candidate.detail',$i['candidate_id']);
+            $temp['spot'] = $i['admin']['spot'];
+            $temp['meet'] = $i['admin']['meet'];
+            $data[] = $temp;
+        }
+        return response()->json(['success' => true, 'data' => $data],200);
     }
 
     // public function myReschedule(){

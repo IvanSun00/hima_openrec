@@ -4,11 +4,11 @@
     <h1 class="text-center text-4xl uppercase font-bold">Department Schedule</h1>
     @if(in_array(session('role'),['is','sekret']))
         <div class="px-10 mt-5 w-full">
-            <h3 class="text-center text-xl uppercase font-bold mb-3">Choose Division</h3>
-            <select class="w-full" data-te-select-init id="division">
+            <h3 class="text-center text-xl uppercase font-bold mb-3">Choose Department</h3>
+            <select class="w-full" data-te-select-init id="department">
                 <option value="all">All</option>
-                @foreach($division as $div)
-                        <option value="{{ $div['id'] }}">{{ $div['name'] }}</option>
+                @foreach($department as $dep)
+                        <option value="{{ $dep['id'] }}">{{ $dep['name'] }}</option>
                 @endforeach
             </select>
         </div>
@@ -97,9 +97,8 @@
             { label: "Name", field: "name", sort : true },
             { label: "Major", field: "major", sort: true},
             { label: "Place", field: "place",  sort: false },
-            { label: "Type", field: "type", sort: false },
-            { label: "Division 1", field: "priorityDivision1",sort: false },
-            { label: "Division 2", field: "priorityDivision2", sort: false },
+            { label: "Department 1", field: "priorityDepartment1",sort: false },
+            { label: "Department 2", field: "priorityDepartment2", sort: false },
             { label: "Interviewer", field: "interviewer", sort: true },
             { label: "Action", field: "action"},
             ],
@@ -135,7 +134,6 @@
                         </svg>
                     </button>
                     `,
-                    type : item.type == 0 ? "Wawancara 2 Divisi" : "Wawancara Divisi ke "+item.type,
                     place : item.online == 0 ? item.spot : item.meet,
                 }
             }),
@@ -166,13 +164,13 @@
 
         $(document).ready(function(){
             let admin_id = @json(session('admin_id'));
-            $("#division").on('change',async function(){
-                let division = $(this).val();
+            $("#department").on('change',async function(){
+                let department = $(this).val();
                 let change = await $.ajax({
-                    url : "{{ route('admin.interview.division') }}",
+                    url : "{{ route('admin.interview.department') }}",
                     method : "POST",
                     data : {
-                        division : division,
+                        department : department,
                         _token : "{{ csrf_token() }}"
                     },
                     success : function(data){
@@ -192,10 +190,9 @@
                             { label: "NRP", field: "nrp", sort : true},
                             { label: "Name", field: "name", sort : true },
                             { label: "Major", field: "major", sort: true},
-                            { label: "Type", field: "type", sort: false },
-                            { label: "Place", field: "place",sort: false },
-                            { label: "Division 1", field: "priorityDivision1",sort: false },
-                            { label: "Division 2", field: "priorityDivision2", sort: false },
+                            { label: "Place", field: "place",  sort: false },
+                            { label: "Department 1", field: "priorityDepartment1",sort: false },
+                            { label: "Department 2", field: "priorityDepartment2", sort: false },
                             { label: "Interviewer", field: "interviewer", sort: true },
                             { label: "Action", field: "action"},
                             ],
@@ -231,7 +228,6 @@
                                         </svg>
                                     </button>
                                     `,
-                                    type : item.type == 0 ? "Wawancara 2 Divisi" : "Wawancara Divisi ke "+item.type,
                                     place : item.online == 0 ? item.spot : item.meet,
                                 }
                             }),

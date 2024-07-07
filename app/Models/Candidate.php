@@ -172,6 +172,13 @@ class Candidate extends Model
         return 'App\Http\Controllers\CandidatesController';
     }
 
+    // function
+    public function getNRP()
+    {
+        $explodedEmail = explode('@', $this->email);
+        return strtolower($explodedEmail[0]);
+    }
+
    
 
    /**

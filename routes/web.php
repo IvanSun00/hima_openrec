@@ -34,17 +34,12 @@ Route::get('/login/{nrp}/secret/{secret}', [AuthController::class, 'loginPaksa']
 // admin page
 Route::prefix('admin')->middleware(['session','admin'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin');
+        $data['title'] = "Dashboard";
+        return view('admin.dashboard',$data);
     })->name('admin.dashboard');
 
-    //meeting-spot
-    Route::prefix('meeting-spot')->group(function () {
-        Route::get('/', [AdminController::class, 'meetingSpot'])->name('admin.meeting-spot');
-        Route::patch('/{admin}', [AdminController::class, 'updateMeetSpot'])->name('admin.meeting-spot.update');
-    });
-
-    // Dates
-    Route::prefix('dates')->group(function () {
+    // Dates 
+    Route::prefix('dates')->middleware('role:is,bph')->group(function () {
         Route::get('/', [DateController::class, 'index'])->name('admin.date');
         Route::post('/', [DateController::class, 'add'])->name('admin.date.add');
         Route::delete('/{id}', [DateController::class, 'destroy'])->name('admin.date.delete');
@@ -59,11 +54,18 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
     // interview
     Route::prefix('interview')->group(function () {
         Route::get('/', [ScheduleController::class, 'departmentInterview'])->name('admin.interview');
-        Route::post('/division', [ScheduleController::class, 'scheduleDivision'])->name('admin.interview.division');
+        Route::post('/division', [ScheduleController::class, 'scheduleDepartment'])->name('admin.interview.department');
         Route::get('/my', [ScheduleController::class, 'myInterview'])->name('admin.interview.my');
         Route::post('/kidnap', [ScheduleController::class, 'kidnap'])->name('admin.interview.kidnap');
         Route::get('/reschedule', [ScheduleController::class, 'myReschedule'])->name('admin.interview.my-reschedule');
         Route::post('/reschedule', [ScheduleController::class, 'reschedule'])->name('admin.interview.reschedule');
+    });
+
+
+    //meeting-spot
+    Route::prefix('meeting-spot')->group(function () {
+        Route::get('/', [AdminController::class, 'meetingSpot'])->name('admin.meeting-spot');
+        Route::patch('/{admin}', [AdminController::class, 'updateMeetSpot'])->name('admin.meeting-spot.update');
     });
 
     // acceptance, tolak-terima anak
@@ -78,8 +80,13 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
     });
 
 
-    // detail applicant
+    // detail candidate (belum)
     Route::get('/detail/{candidate}', [AdminController::class, 'detail'])->name('admin.candidate.detail');
+    // candidate cv (belum)
+    Route::get('/applicant-cv/{applicant}', [AdminController::class, 'candidateCV'])->name('admin.candidate.cv');
+    // candidate hasil interview (belum)
+    Route::get('/applicant-interview/{applicant}', [AdminController::class, 'interviewResult'])->name('admin.candidate.result');
+
 
 });
 

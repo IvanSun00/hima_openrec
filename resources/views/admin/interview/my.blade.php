@@ -84,9 +84,8 @@
             { label: "Name", field: "name", sort: true },
             { label: "Major", field: "major", sort: true},
             { label: "Place", field: "place", sort: false },
-            { label: "Type", field: "type", sort: false },
-            { label: "Division 1", field: "priorityDivision1", sort:true },
-            { label: "Division 2", field: "priorityDivision2", sort: true },
+            { label: "Department 1", field: "priorityDepartment1", sort:true },
+            { label: "Department 2", field: "priorityDepartment2", sort: true },
             { label: "Action", field: "action"},
             ],
             rows: data.map((item) => {
@@ -122,7 +121,6 @@
                         </button>
                     </a>
                     `,
-                    type : item.type == 0 ? "Wawancara 2 Divisi" : "Wawancara Divisi ke "+item.type,
                     place : item.online == 0 ? item.spot : item.meet,
                 }
             }),
