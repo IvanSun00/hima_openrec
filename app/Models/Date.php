@@ -49,7 +49,7 @@ class Date extends Model
     public static function validationRules()
     {
         return [
-            'date' => 'required|date|date_format:Y-m-d|unique:dates,date',
+            'date' => 'required|date|unique:dates,date',
         ];
     }
 
@@ -63,7 +63,6 @@ class Date extends Model
         return [
             'date.required' => 'Date is required',
             'date.date' => 'Date must be a date',
-            'date.date_format' => 'Date must be in Y-m-d format',
             'date.unique' => 'Date already exists',
         ];
     }
@@ -75,7 +74,9 @@ class Date extends Model
      */
     public function resourceData($request)
     {
-        return ModelUtils::filterNullValues([]);
+        return ModelUtils::filterNullValues([
+            'date' => $request->date,
+        ]);
     }
 
 
@@ -87,7 +88,7 @@ class Date extends Model
 
     public function controller()
     {
-        return 'App\Http\Controllers\DatesController';
+        return 'App\Http\Controllers\DateController';
     }
 
    
@@ -109,7 +110,7 @@ class Date extends Model
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::class, 'date_id');
+        return $this->hasMany(Schedule::class,'date_id');
     }
 
 }

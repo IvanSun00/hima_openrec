@@ -38,6 +38,7 @@ return new class extends Migration
             $table->uuid('accepted_department')->nullable();
             $table->uuid('priority_department1')->nullable(); //tetep harus diisi
             $table->uuid('priority_department2')->nullable();
+            $table->unsignedTinyInteger('acceptance_stage')->default(1)->comment('1:tunggu-satu, 2:terima-satu, 3:tunggu-dua, 4:terima-dua, 5:tunggu-culik, 6:terima-culik');
             $table->unsignedTinyInteger('phase')->default(1)->comment('1:data phase,2:file phase,3:select time,4:waiting interview, 5:after interview');
 
             $table->foreign('major_id')->references('id')->on('majors')->cascadeOnDelete();

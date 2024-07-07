@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Models\ModelUtils;
-use App\Repositories\SchedulesRepository;
-use App\Services\SchedulesService;
-use App\Http\Resources\SchedulesResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -53,7 +50,7 @@ class Schedule extends Model
         return [
             'admin_id' => 'required|uuid|exists:admins,id',
             'date_id' => 'required|uuid|exists:dates,id',
-            'candidate_id' => 'required|uuid|exists:candidates,id',
+            'candidate_id' => 'nullable|uuid|exists:candidates,id',
             'online' => 'required|boolean',
             'time' => 'required|integer|min:0|max:23',
             'status' => 'required|integer|min:0|max:2',
@@ -74,7 +71,6 @@ class Schedule extends Model
             'date_id.required' => 'Date ID is required',
             'date_id.uuid' => 'Date ID must be a UUID',
             'date_id.exists' => 'Date ID does not exist',
-            'candidate_id.required' => 'Candidate ID is required',
             'candidate_id.uuid' => 'Candidate ID must be a UUID',
             'candidate_id.exists' => 'Candidate ID does not exist',
             'online.required' => 'Online is required',
@@ -109,7 +105,7 @@ class Schedule extends Model
 
     public function controller()
     {
-        return 'App\Http\Controllers\SchedulesController';
+        return 'App\Http\Controllers\ScheduleController';
     }
 
     /**
@@ -130,14 +126,14 @@ class Schedule extends Model
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'admin_id');
+        return $this->belongsTo(Admin::class);
     }
 
     public function date()
     {
         return $this->belongsTo(Date::class);
     }
-
+    
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);
