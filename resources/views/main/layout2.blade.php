@@ -4,69 +4,113 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- CDN for tailwind --}}
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    {{-- CDN for JQUERY --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-    {{-- CDN for Tailwind Element --}}
+    {{-- Tailwind Element --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css" />
 
-    <!-- ThreeJs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.148.0/three.min.js"></script>
-
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                fontFamily: {
-                    'asap': ["Asap"],
-                    'dillan': ["dillan"],
-                },
-            },
-            corePlugins: {
-                preflight: false,
-            },
-        };
-    </script>
-
-    {{-- CDN for SweetAlert --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    {{-- CDN for AOS --}}
+    {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <link rel="icon" href="{{ asset('assets/img/logo-web.png') }}">
+
+    {{-- FontAwesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    {{-- Swiper --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <style>
         @font-face {
-            font-family: dillan;
-            src: url('{{ asset('assets/dillan.otf') }}') format('truetype');
+            font-family: intro;
+            src: url("{{ asset('assets/font/intro.otf') }}") format('truetype');
         }
 
-        canvas {
-            margin: auto;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            width: 100% !important;
-            height: 100vh !important;
-            z-index: 0;
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text: #D8CFC2;
+            --bg: #2B2828;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #317AB6;
+            background: linear-gradient(180deg,
+                    #C1D6E2 0%,
+                    #52BAC1 49%,
+                    #317AB6 100%);
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: var(--bg);
+        }
+
+        body,
+        html {
+            overflow-x: hidden !important;
         }
 
         body {
-            background: rgb(16, 23, 57);
-            background: linear-gradient(180deg, rgba(16, 23, 57, 1) 0%, rgba(48, 63, 107, 1) 50%, rgba(86, 71, 120, 1) 100%);
-            cursor: url('{{ asset('assets/baymax-touch-smol.png') }}') 25 25, auto;
+            background: var(--black) !important;
+            /* background: url("{{ asset('assets/img/background.png') }}");
+            background-size: cover; */
+            color: var(--text);
+        }
+
+        .font1 {
+            font-family: intro;
+        }
+
+        .text-shadow {
+            text-shadow: 5px 5px 2px rgba(0, 0, 0, 0.75);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            background: var(--black) !important;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .section-content {
+            position: relative;
+        }
+
+        .section-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ asset('assets/img/background.png') }}") no-repeat center center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: -1;
         }
     </style>
 
@@ -74,664 +118,82 @@
 
 </head>
 
-<body class="p-0 m-0 overflow-hidden h-screen font-asap relative">
+<body class="p-0 m-0 overflow-x-hidden">
 
-    {{-- Baymax --}}
-    <div class="w-full h-full"></div>
-    <div class="w-full h-1/4"></div>
-    <div class="container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mx-auto text-center flex flex-col justify-center"
-        style="z-index: 1;">
+    <div class="bg-gradient">
+        <canvas id="canvas" width="32" height="32"></canvas>
+    </div>
+
+    <div class="section-content flex flex-col items-center justify-center">
         @yield('content')
     </div>
 
 
+    {{-- Tailwind --}}
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 
-    <!-- Background -->
+    {{-- JQUERY --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    {{-- AOS --}}
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Tailwind --}}
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+    <!-- Swiper -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Vanilla tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
     <script>
-        // console.clear();
+        let c = document.getElementById('canvas');
+        let $ = c.getContext('2d');
 
-        function perlin() {
-            return `
-
-          uniform vec2 u_resolution;
-          uniform vec2 u_mouse;
-          uniform float u_time;
-          uniform float u_xpos;
-          uniform float u_ypos;
-
-        vec3 mod289(vec3 x) {
-          return x - floor(x * (1.0 / 289.0)) * 289.0;
+        let col = function(x, y, r, g, b) {
+            $.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+            $.fillRect(x, y, 1, 1);
         }
 
-        vec4 mod289(vec4 x) {
-          return x - floor(x * (1.0 / 289.0)) * 289.0;
+        let R = function(x, y, t) {
+            return (Math.floor(32 + 32 * Math.cos((x * x - y * y) / 300 + t)));
         }
 
-        vec4 permute(vec4 x) {
-             return mod289(((x*34.0)+1.0)*x);
+        let G = function(x, y, t) {
+            return (Math.floor(32 + 32 * Math.sin((x * x * Math.cos(t / 4) + y * y * Math.sin(t / 3)) / 300)));
         }
 
-        vec4 taylorInvSqrt(vec4 r)
-        {
-          return 1.79284291400159 - 0.85373472095314 * r;
+        let B = function(x, y, t) {
+            return (Math.floor(32 + 32 * Math.sin(5 * Math.sin(t / 9) + ((x - 100) * (x - 100) + (y - 100) * (y -
+                100)) / 1100)));
         }
 
-        float snoise(vec3 v)
-          {
-          const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
-          const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+        let t = 0;
 
-          vec3 i  = floor(v + dot(v, C.yyy) );
-          vec3 x0 =   v - i + dot(i, C.xxx) ;
-
-          vec3 g = step(x0.yzx, x0.xyz);
-          vec3 l = 1.0 - g;
-          vec3 i1 = min( g.xyz, l.zxy );
-          vec3 i2 = max( g.xyz, l.zxy );
-
-          vec3 x1 = x0 - i1 + C.xxx;
-          vec3 x2 = x0 - i2 + C.yyy;
-          vec3 x3 = x0 - D.yyy;
-
-          i = mod289(i);
-          vec4 p = permute( permute( permute(
-                     i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-                   + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
-                   + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
-
-          float n_ = 0.142857142857;
-          vec3  ns = n_ * D.wyz - D.xzx;
-
-          vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-
-          vec4 x_ = floor(j * ns.z);
-          vec4 y_ = floor(j - 7.0 * x_ );
-
-          vec4 x = x_ *ns.x + ns.yyyy;
-          vec4 y = y_ *ns.x + ns.yyyy;
-          vec4 h = 1.0 - abs(x) - abs(y);
-
-          vec4 b0 = vec4( x.xy, y.xy );
-          vec4 b1 = vec4( x.zw, y.zw );
-
-          vec4 s0 = floor(b0)*2.0 + 1.0;
-          vec4 s1 = floor(b1)*2.0 + 1.0;
-          vec4 sh = -step(h, vec4(0.0));
-
-          vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
-          vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
-
-          vec3 p0 = vec3(a0.xy,h.x);
-          vec3 p1 = vec3(a0.zw,h.y);
-          vec3 p2 = vec3(a1.xy,h.z);
-          vec3 p3 = vec3(a1.zw,h.w);
-
-          vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
-          p0 *= norm.x;
-          p1 *= norm.y;
-          p2 *= norm.z;
-          p3 *= norm.w;
-
-          vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-          m = m * m;
-          return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
-                                        dot(p2,x2), dot(p3,x3) ) );
-          }
-        `;
-        }
-
-        const sampleScale = 1.5;
-
-        let width = window.innerWidth * sampleScale;
-        let height = window.innerHeight * sampleScale;
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-
-        let smoothScrollY = window.scrollY;
-
-        camera.position.z = 10;
-        scene.add(camera);
-
-        const renderer = new THREE.WebGLRenderer({
-            alpha: true
-        });
-        renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
-
-        const startTime = new Date().getTime();
-
-        const uniforms = {
-            time: new THREE.Uniform(1),
-            width: new THREE.Uniform(width),
-            height: new THREE.Uniform(height),
-            scrollY: new THREE.Uniform(window.scrollTop)
-        };
-
-        const bgPlane = new THREE.PlaneGeometry(
-            camera.position.z * 2,
-            camera.position.z * 2
-        );
-        const bgMaterial = new THREE.ShaderMaterial({
-            uniforms,
-            transparent: true,
-            fragmentShader: `
-            uniform float width;
-            uniform float height;
-            uniform float time;
-            uniform float scrollY;
-
-            float wavePos(float waveIndex, vec2 p, float numWaves){
-                float sixth = 1./numWaves;
-                float reverse = 1.;
-                if(mod(waveIndex, 2.) == 0.) reverse = -1.;
-                return sixth * waveIndex + sin(time + waveIndex * 9.14516 + p.x * 8. * reverse) * .02;
-            }
-
-            void main() {
-                float minWindowDimension = min(width, height);
-                vec2 p = gl_FragCoord.xy / vec2(width, height);
-                vec2 squareP = gl_FragCoord.xy / vec2(minWindowDimension, minWindowDimension);
-                vec2 truePScale = vec2(width, height) / minWindowDimension;
-                p.y = 1. - p.y;
-
-                gl_FragColor = vec4(color, alpha);
-        }
-            `
-        });
-
-        const bgMesh = new THREE.Mesh(bgPlane, bgMaterial);
-
-        scene.add(bgMesh);
-
-        const bushMaterial = new THREE.ShaderMaterial({
-            uniforms,
-            blending: THREE.NormalBlending,
-            depthTest: false,
-            transparent: true,
-            vertexShader: `
-              varying vec2 vUv;
-              void main () {
-                vUv = uv;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position.xyz, 1.0);
-              }
-                `,
-            fragmentShader: `
-        #ifdef GL_ES
-        precision mediump float;
-        #endif
-
-        #define PI 3.14159265359
-
-        uniform float width;
-        uniform float height;
-        uniform float time;
-        uniform float rotation;
-        uniform float numLeafs;
-        uniform float leafSizePercent;
-        uniform vec3 color;
-        uniform vec3 centerColor;
-
-        varying vec2 vUv;
-
-        ${perlin()}
-
-        void main() {
-            vec2 p = vUv;
-            p.y = 1. - p.y;
-            vec2 center = vec2(.5, .5);
-
-            float leafExtrusion = leafSizePercent;
-            float leafRLength = (PI * 2.) / numLeafs;
-
-            vec4 result = vec4(1.,1.,1.,0.);
-
-            float angle = atan(center.x - p.x, center.y - p.y ) + rotation;
-            float leaf = floor(angle / leafRLength);
-            float leafR = leaf * leafRLength;
-
-            float leafStartAngle = leafR - leafRLength * .5;
-            float noiseScale = ((cos((angle - leafStartAngle) / leafRLength * PI * 2.) + 1.) / 2.) * leafExtrusion;
-
-            float leafYNoise = ((snoise(vec3(cos(leafR), sin(leafR), time * .25)) + 1.) / 2.);
-
-            float leafEnd = .25 + (leafYNoise * .5 + .5) * noiseScale;
-            float distanceFromCenter = distance(p, center);
-
-            vec3 mixedColor = mix(centerColor, color, distanceFromCenter * 4.);
-            if(distanceFromCenter < leafEnd) result = vec4(mixedColor / 255., 1.);
-
-            gl_FragColor = result;
-        }
-              `
-        });
-        const bush = (props) => {
-            let {
-                x,
-                y,
-                z,
-                numLeafs,
-                rotation,
-                leafSizePercent,
-                size,
-                color,
-                centerColor
-            } = {
-                ...{
-                    x: 0,
-                    y: 0,
-                    z: 5,
-                    numLeafs: 6,
-                    rotation: 0,
-                    leafSizePercent: 0.25,
-                    size: 1.5,
-                    color: {
-                        x: 37,
-                        y: 40,
-                        z: 91
-                    }
-                },
-                ...props
-            };
-
-            if (!centerColor) centerColor = color;
-            const material = bushMaterial.clone();
-
-            material.uniforms.time = uniforms.time;
-            material.uniforms.width = uniforms.width;
-            material.uniforms.height = uniforms.height;
-            material.uniforms.numLeafs = new THREE.Uniform(numLeafs);
-            material.uniforms.rotation = new THREE.Uniform(rotation + Math.PI / numLeafs);
-            material.uniforms.leafSizePercent = new THREE.Uniform(leafSizePercent);
-            material.uniforms.color = new THREE.Uniform(
-                new THREE.Vector3(color.x, color.y, color.z)
-            );
-            material.uniforms.centerColor = new THREE.Uniform(
-                new THREE.Vector3(centerColor.x, centerColor.y, centerColor.z)
-            );
-
-            const plane = new THREE.PlaneGeometry(size, size);
-            const mesh = new THREE.Mesh(plane, material);
-            mesh.position.x = x;
-            mesh.position.y = -y;
-            mesh.position.z = z;
-
-            scene.add(mesh);
-        };
-
-        const darkBlueBush = (darkness = 0) => {
-            let baseDarkness = 1 - darkness;
-            let darkerDarkness = 0.9 - darkness;
-            return {
-                color: {
-                    x: 37 * baseDarkness,
-                    y: 40 * baseDarkness,
-                    z: 91 * baseDarkness
-                },
-                centerColor: {
-                    x: 31 * darkerDarkness,
-                    y: 33 * darkerDarkness,
-                    z: 76 * darkerDarkness
+        let run = function() {
+            for (let x = 0; x <= 32; x++) {
+                for (let y = 0; y <= 32; y++) {
+                    col(x, y, R(x, y, t), G(x, y, t), B(x, y, t));
                 }
-            };
-        };
-
-        const lightBlueBush = {
-            color: {
-                x: 94,
-                y: 48,
-                z: 134
-            },
-            centerColor: {
-                x: 65,
-                y: 40,
-                z: 126
             }
-        };
-
-        const lightBlueAltBush = {
-            color: {
-                x: 37 * 1.1,
-                y: 40 * 1.1,
-                z: 91 * 1.1
-            },
-            centerColor: {
-                x: 31,
-                y: 33,
-                z: 76
-            }
-        };
-
-        const darkerBlueBush = {
-            color: {
-                x: 37 * 0.75,
-                y: 40 * 0.75,
-                z: 91 * 0.75
-            },
-            centerColor: {
-                x: 37 * 0.7,
-                y: 40 * 0.7,
-                z: 91 * 0.7
-            }
-        };
-
-        const bushes = [{
-                ...lightBlueAltBush,
-                size: 1.8,
-                x: 0,
-                y: 1.7,
-                z: 6.6,
-                numLeafs: 5
-            }, // font and center
-
-            {
-                ...darkBlueBush(0.05),
-                size: 3,
-                x: 1.4,
-                y: 2.2,
-                z: 6,
-                numLeafs: 9,
-                mirrorX: true
-            },
-
-            {
-                ...lightBlueBush,
-                size: 4,
-                x: 2.2,
-                y: 2.4,
-                z: 4,
-                numLeafs: 11,
-                mirrorX: true
-            },
-
-            {
-                ...darkerBlueBush,
-                size: 9,
-                x: 7.3,
-                y: 1,
-                z: 1,
-                numLeafs: 11,
-                mirrorX: true
-            },
-
-            {
-                ...darkBlueBush(),
-                size: 7,
-                x: 6.2,
-                y: 1.7,
-                z: 2,
-                numLeafs: 9,
-                mirrorX: true
-            },
-
-            {
-                ...darkBlueBush(-0.3),
-                size: 4,
-                x: 5,
-                y: 1.85,
-                z: 3,
-                numLeafs: 5,
-                mirrorX: true,
-                rotation: Math.PI * 0.3
-            },
-
-            {
-                ...darkerBlueBush,
-                size: 2.5,
-                x: 1,
-                y: 2.3,
-                z: 6.4,
-                numLeafs: 9,
-                mirrorX: false
-            },
-            {
-                ...lightBlueAltBush,
-                size: 3.5,
-                x: -0.8,
-                y: 3.2,
-                z: 5,
-                numLeafs: 9,
-                mirrorX: false
-            },
-
-            {
-                ...darkBlueBush(0.4),
-                size: 2,
-                x: -2.4,
-                y: 2.2,
-                z: 6.3,
-                numLeafs: 9,
-                mirrorX: false
-            },
-
-            {
-                ...lightBlueAltBush,
-                size: 2,
-                x: -1,
-                y: 3,
-                z: 7.5,
-                numLeafs: 9,
-                mirrorX: false
-            },
-            {
-                ...darkBlueBush(0.1),
-                size: 1.5,
-                x: 0.8,
-                y: 2.5,
-                z: 8,
-                numLeafs: 9,
-                mirrorX: false
-            },
-            {
-                ...darkBlueBush(0.2),
-                size: 2,
-                x: -0.7,
-                y: 2.8,
-                z: 6.5,
-                numLeafs: 9,
-                mirrorX: false
-            },
-
-            {
-                ...darkBlueBush(0.4),
-                size: 2.5,
-                x: -0.2,
-                y: 2.8,
-                z: 6.4,
-                numLeafs: 9,
-                mirrorX: false
-            },
-
-            {
-                ...darkBlueBush(0.2),
-                size: 4,
-                x: 4,
-                y: 3.1,
-                z: 4.4,
-                numLeafs: 9,
-                mirrorX: true
-            },
-            {
-                ...darkBlueBush(0.4),
-                size: 4,
-                x: 1.5,
-                y: 3.6,
-                z: 4.3,
-                numLeafs: 9,
-                mirrorX: true
-            },
-            {
-                ...darkBlueBush(0.1),
-                size: 3,
-                x: 2.5,
-                y: 3.9,
-                z: 4.3,
-                numLeafs: 7,
-                mirrorX: true
-            },
-            {
-                ...darkBlueBush(0.2),
-                size: 3,
-                x: 1.2,
-                y: 3.5,
-                z: 4.3,
-                numLeafs: 7,
-                mirrorX: false
-            }
-        ];
-
-        for (let i = 0; i < bushes.length; i++) {
-            let b = bushes[i];
-            b.rotation = b.rotation || i * 13.14156;
-            let doubledBush = {
-                ...b,
-                rotation: b.rotation + Math.PI
-            };
-
-            bush(b);
-            if (bushes[i].mirrorX) bush({
-                ...b,
-                x: b.x * -1,
-                rotation: b.rotation * -1
-            });
-
-            if (b.double !== false) {
-                bush(doubledBush);
-                if (bushes[i].mirrorX)
-                    bush({
-                        ...doubledBush,
-                        x: doubledBush.x * -1,
-                        rotation: doubledBush.rotation * -1
-                    });
-            }
+            t = t + 0.015;
+            window.requestAnimationFrame(run);
         }
 
-        window.addEventListener("resize", resize);
-
-        function resize() {
-            width = window.innerWidth * sampleScale;
-            height = window.innerHeight * sampleScale;
-            renderer.setSize(width, height);
-            uniforms.width.value = width;
-            uniforms.height.value = height;
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        }
-
-        resize();
-
-        function update() {
-            renderer.render(scene, camera);
-            smoothScrollY = window.scrollY;
-
-            camera.position.y = -smoothScrollY * 0.006;
-
-            bgMesh.position.y = camera.position.y;
-
-            let now = new Date().getTime();
-            let currentTime = now - startTime;
-            uniforms.time.value = currentTime / 1000;
-            uniforms.scrollY.value = smoothScrollY * sampleScale;
-
-            window.requestAnimationFrame(update);
-        }
-
-        update();
+        run();
     </script>
-    {{-- Script for Baymax --}}
-    {{-- <script>
-        var follow = 0;
-        function startBaymaxFollow(){
-            if(follow == 0){
-                setInterval(followMouse, 30);
-                follow = 1;
-            }else{
-                return;
-            }
-
-        }
-        var baymax = document.querySelector("#baymax");
-        document.addEventListener("mousemove", async function(e){
-            await getMouse(e);
-        }); 
-        document.addEventListener("touchmove", async function(e){
-            await getMouse(e);
-        });
-
-        document.addEventListener('click', function(){
-            changeBaymaxSrc()
-        })
-        
-        baymax.style.position = "absolute"; //css		
-        var baymaxpos = {x:0, y:0};
-        
-        var mouse = {x:0, y:0}; //mouse.x, mouse.y
-        
-        var dir = "right";
-        function getMouse(e){
-            mouse.x = e.pageX;
-            mouse.y = e.pageY;
-            //Checking directional change
-            if(mouse.x > baymaxpos.x){
-                dir = "right";
-            } else {
-                dir = "left";
-            }
-        }
-
-        function followMouse(){
-            //1. find distance X , distance Y
-            var distX = mouse.x - baymaxpos.x;
-            var distY = mouse.y - baymaxpos.y;
-            //Easing motion 
-            //Progressive reduction of distance 
-            baymaxpos.x += distX/5;
-            baymaxpos.y += distY/2;
-            
-            // baymax.style.left = baymaxpos.x + "px";
-            // baymax.style.top = baymaxpos.y + "px";
-
-            baymax.style.left = (mouse.x + 10) + "px";
-            baymax.style.top = (mouse.y + 10) + "px";
-            
-            //Apply css class 
-            if (dir == "right"){
-                baymax.setAttribute("class", "right");
-                // changeBaymaxSrc(0)
-            } else {
-                baymax.setAttribute("class", "left");     
-                // changeBaymaxSrc(1)   
-            }
-            
-        }
-
-        var source = {
-            0 : "{{ asset('assets/baymax.png') }}",
-            1 : "{{ asset('assets/baymax-touch.png') }}",
-        }
-        let now = 1
-        function changeBaymaxSrc(){
-            if(now == 0){
-                now = 1
-            }else{
-                now = 0
-            }
-            baymax.src = source[now]
-        }
-        startBaymaxFollow();
-    </script> --}}
 
     <script>
-        $(document).ready(function() {
-            $(document.body).on('touchstart mousedown', function() {
-                document.body.style.cursor = "url('{{ asset('assets/baymax-smol.png') }}') 25 25, auto"
-            })
-
-            $(document.body).on("touchend mouseup", function() {
-                document.body.style.cursor =
-                    "url('{{ asset('assets/baymax-touch-smol.png') }}') 25 25, auto"
-            })
-        })
+        AOS.init();
     </script>
+
     @yield('script')
 
 </body>
