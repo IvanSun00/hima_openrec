@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\ApplicantDocumentsUploaded;
+use App\Events\AllApplicantDocumentsUploaded;
+use App\Listeners\CheckApplicantDocuments;
+use App\Listeners\UpdateApplicationStage;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ApplicantDocumentsUploaded::class => [
+            CheckApplicantDocuments::class,
+        ],
+        AllApplicantDocumentsUploaded::class => [
+            UpdateApplicationStage::class,
         ],
     ];
 

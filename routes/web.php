@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AssetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\ScheduleController;
 use App\Models\Candidate;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,8 @@ Route::get('/loginRedirect', [AuthController::class , 'loginRedirect'])->name('g
 Route::get('/loginProcess', [AuthController::class , 'loginProcess'])->name('google.callback');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/login/{nrp}/secret/{secret}', [AuthController::class, 'loginPaksa'])->name('loginPaksa');
+Route::get('/assets/upload/{path}', [AssetController::class, 'upload'])->where('path', '.*')->name('upload');
+
 
 // admin page
 Route::prefix('admin')->middleware(['session','admin'])->group(function () {
@@ -92,12 +96,30 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
 
 
 // candidate page (belum ada middleware applicant)
-Route::prefix('main')->name('main.')->middleware([])->group(function () {
-    Route::get('/application-form', function () {
-        echo "application-form";
-    })->name('application-form');
+Route::prefix('main')->middleware([])->group(function () {
+    //tahap 1:
+    Route::get('application-form', [CandidateController::class, 'applicationForm'])->name('applicant.application-form');
+    Route::post('store-application', [CandidateController::class, 'storeApplication'])->name('applicant.application.store');
+    Route::patch('update-application', [CandidateController::class, 'updateApplication'])->name('applicant.application.update');
 
-    Route::get('/interview', function () {
-        echo('interview');
-    })->name('interview');
+    // tahap 2:
+    Route::get('documents-form', [CandidateController::class, 'documentsForm'])->name('applicant.documents-form');
+    Route::post('store-document/{type}', [CandidateController::class, 'storeDocument'])->name('applicant.document.store')
+        ->where(
+            'type',
+            strtolower(
+                join('|', array_keys(CandidateController::documentTypes()))
+            )
+        );
+
+    // // tahap 3: 
+    Route::get('schedule-form', [CandidateController::class, 'scheduleForm'])->name('applicant.schedule-form');
+    Route::post('get-schedule', [CandidateController::class, 'getTimeSlot'])->name('applicant.get-schedule');
+    Route::post('pick-schedule', [CandidateController::class, 'pickSchedule'])->name('applicant.pick-schedule');
+    Route::post('reschedule', [CandidateController::class, 'reschedule'])->name('applicant.reschedule');
+
+    // Route::get('interview-detail', [CandidateController::class, 'interviewDetail'])->name('applicant.interview-detail');
+    // Route::get('cv', [CandidateController::class, 'previewCV'])->name('applicant.cv');
+
 });
+

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('birth_date');
 
             $table->string('address',100);
+            $table->string('phone',50);
             $table->string('line',50);
             $table->string('instagram',50);
             $table->string('tiktok',50)->nullable();

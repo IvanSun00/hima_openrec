@@ -9,7 +9,7 @@ use App\Http\Resources\CandidatesResource;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Candidate extends Model
 {
@@ -31,6 +31,7 @@ class Candidate extends Model
         'birth_place',
         'birth_date',
         'address',
+        'phone',
         'line',
         'instagram',
         'tiktok',
@@ -43,9 +44,12 @@ class Candidate extends Model
         'accepted_department',
         'priority_department1',
         'priority_department2',
-        'phase',
+        'stage',
 
     ]; 
+
+    
+    protected $casts = ['documents' => 'array'];
 
     /**
      * Rules that applied in this model
@@ -64,6 +68,7 @@ class Candidate extends Model
             'birth_place' => 'required|string|max:50',
             'birth_date' => 'required|date|date_format:Y-m-d',
             'address' => 'required|string|max:100',
+            'phone' => 'required|string|max:50|regex:/^([0-9]{8,16})$/',
             'line' => 'required|string|max:50',
             'instagram' => 'required|string|max:50',
             'tiktok' => 'nullable|string|max:50',
@@ -77,7 +82,7 @@ class Candidate extends Model
             'accepted_department' => 'nullable|uuid|exists:departments,id',
             'priority_department1' => 'required|uuid|exists:departments,id',
             'priority_department2' => 'nullable|uuid|exists:departments,id|different:priority_department1',
-            'phase' => 'required|integer',
+            'stage' => 'required|integer',
         ];
     }
 
@@ -117,6 +122,10 @@ class Candidate extends Model
             'address.required' => 'Address is required',
             'address.string' => 'Address must be a string',
             'address.max' => 'Address must not exceed 100 characters',
+            'phone.required' => 'Phone is required',
+            'phone.string' => 'Phone must be a string',
+            'phone.max' => 'Phone must not exceed 50 characters',
+            'phone.regex' => 'Phone must be a valid phone number',
             'line.required' => 'Line is required',
             'line.string' => 'Line must be a string',
             'line.max' => 'Line must not exceed 50 characters',
@@ -145,8 +154,8 @@ class Candidate extends Model
             'priority_department2.uuid' => 'Priority department 2 must be a valid UUID',
             'priority_department2.exists' => 'Priority department 2 must be an existing department',
             'priority_department2.different' => 'Priority department 2 must be different from priority department 1',
-            'phase.required' => 'Phase is required',
-            'phase.integer' => 'Phase must be an integer',
+            'stage.required' => 'Stage is required',
+            'stage.integer' => 'Stage must be an integer',
         ];
     }
 
@@ -179,9 +188,41 @@ class Candidate extends Model
         return strtolower($explodedEmail[0]);
     }
 
-   
+    public function findByEmail($email, array $columns = ['*'], $relations = null)
+    {
+        $builder = $relations ? $this->with($relations) : $this;
+        return $builder->select(...$columns)
+            ->where('email', $email)
+            ->first();
+    }
 
-   /**
+    public function findByNRP($nrp, array $columns = ['*'], $relations = null)
+    {
+        return $this->findByEmail($nrp . '@john.petra.ac.id', $columns, $relations);
+    }
+
+    public function cv()
+    {
+        $this->load($this->relations());
+        return Pdf::loadView(
+            'pdf.applicant_cv',
+            ['applicant' => $this]
+        );
+    }
+
+    public function addDocument($documentType, $filename)
+    {
+        $documents = $this->documents;
+
+        if (!$documents) $documents = [];
+
+        $documents[$documentType] = $filename;
+        $this->documents = $documents;
+        $this->save();
+    }
+
+
+    /**
     * Relations associated with this model
     *
     * @var array

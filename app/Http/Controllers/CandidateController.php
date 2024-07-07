@@ -5,8 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\BaseController;
 use App\Models\Candidate;
 use App\Models\Department;
+use App\Models\Major;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use ErrorException;
+// http
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ApplicationRequest;
+use App\Http\Requests\StoreDocumentRequest;
+use Illuminate\Http\UploadedFile;
+use App\Events\ApplicantDocumentsUploaded;
+
 
 
 
@@ -16,6 +26,134 @@ class CandidateController extends BaseController
     {
         parent::__construct($model);
     }
+    /*
+    |--------------------------------------------------------------------------
+    | Main Page
+    */
+
+    // tahap 1
+    public function applicationForm()
+    {
+        $data['title'] = 'Form Pendaftaran';
+        $data['religions'] = self::religions();
+
+        $department = Department::all(['id', 'name'])->toArray();
+        // $department = Department::where('slug', 'peran')->get(['id', 'name'])->toArray();
+        $excludedDivisions = ['Badan Pengurus Harian', 'Opening', 'Closing'];
+        $data['departments'] = array_filter($department, function ($division) use ($excludedDivisions) {
+            return !in_array($division['name'], $excludedDivisions);
+        });
+        $nrp = strtolower(session('nrp'));
+        $res = Http::get('http://john.petra.ac.id/~justin/finger.php?s=' . $nrp);
+
+        $data['form'] = [];
+        try {
+            $resJson = $res->json('hasil')[0];
+            $data['form']['name'] = ucwords(strtolower($resJson['nama']));
+            $data['form']['email'] = $nrp . '@john.petra.ac.id';
+            $data['form']['stage'] = 0;
+        } catch (ErrorException $e) {
+            Log::warning('NRP {nrp} not found in john API.', ['nrp' => $nrp]);
+        }
+
+        $data['majors'] = Major::select('id', 'name')->get();
+
+        $applicantData = $this->model->findByNRP($nrp);
+        if ($applicantData) {
+            $data['form'] = $applicantData->toArray();
+        }
+        return view('main.application_form', $data);
+    }
+
+    public function storeApplication(ApplicationRequest $request)
+    {
+        $msg = $this->store($request);
+
+        return redirect()->back()
+            ->with('success', 'Pendaftaran berhasil!')
+            ->with('message', $msg);
+    }
+
+    public function updateApplication(ApplicationRequest $request)
+    {
+        $applicant = $this->model->findByEmail(session('email'));
+        $this->updatePartial($request->except(['_token', '_method']), $applicant->id);
+
+
+        return redirect()->back()
+            ->with('success_update', 'Biodata berhasil diubah!');
+    }
+
+    // tahap2
+    public function documentsForm()
+    {
+        $nrp = strtolower(session('nrp'));
+        $applicant = $this->model->findByEmail(
+            $nrp . '@john.petra.ac.id',
+            ['id', 'documents', 'stage']
+        );
+
+        if (!$applicant)
+            return redirect()->route('applicant.application-form')
+                ->with('previous_stage_not_completed', 'Silahkan isi form pendaftaran terlebih dahulu!');
+
+        $data['title'] = 'Upload Berkas';
+        $data['documentTypes'] = self::documentTypes();
+
+
+        $data['applicant'] = $applicant->toArray();
+        return view('main.documents_form', $data);
+    }
+
+    public function storeDocument(StoreDocumentRequest $request, $type)
+    {
+        $nrp = strtolower(session('nrp'));
+        $applicant = $this->model->findByNRP($nrp);
+        $storeName = self::saveFile($request->file($type), $applicant, $type);
+
+        if (!$storeName) {
+            return response()
+                ->json(['message' => 'Failed to upload file. Please try again!'])
+                ->setStatusCode(500);
+        }
+
+        $applicant->addDocument($type, $storeName);
+        ApplicantDocumentsUploaded::dispatch(
+            $applicant,
+            self::documentTypes()
+        );
+
+        $applicant->refresh();
+
+        return response()
+            ->json([
+                'message' => 'File uploaded successfully!',
+                'type' => $type,
+                'stageCompleted' => $applicant->stage > 1
+            ])
+            ->setStatusCode(201);
+    }
+
+    private static function saveFile(UploadedFile $file, Candidate $applicant, $type)
+    {
+        $type = strtolower($type);
+        $nrp = $applicant->getNRP();
+        $timestamp = time();
+
+        $path = 'public/uploads/' . $type;
+        $storeName = sprintf('%s_%s_%d.%s', $nrp, $type, $timestamp, $file->extension());
+
+        $filePath = $file->storePubliclyAs($path, $storeName);
+
+        return ($filePath) ? $storeName : false;
+    }
+    
+
+    // tahap 3
+    
+
+
+
 
     /*
         Add new controllers
@@ -395,6 +533,31 @@ class CandidateController extends BaseController
 
 
 
+    // internal fucnction
+    private static function religions()
+    {
+        return array_column(Religion::cases(), 'name');
+    }
+
+    public static function documentTypes()
+    {
+        $allDocuments = array_column(DocumentType::cases(), 'value', 'name');
+        return $allDocuments;
+    }
+
+    // private static function saveFile(UploadedFile $file, Applicant $applicant, $type)
+    // {
+    //     $type = strtolower($type);
+    //     $nrp = $applicant->getNRP();
+    //     $timestamp = time();
+
+    //     $path = 'public/uploads/' . $type;
+    //     $storeName = sprintf('%s_%s_%d.%s', $nrp, $type, $timestamp, $file->extension());
+
+    //     $filePath = $file->storePubliclyAs($path, $storeName);
+
+    //     return ($filePath) ? $storeName : false;
+    // }
 
 }
 
@@ -404,5 +567,14 @@ enum DocumentType: String
     case Ktm = 'KTM / Profile Petra Mobile';
     case Grades = 'Transkrip Nilai';
     case Skkk = 'Transkrip SKKK Petra Mobile';
-    case Schedule = 'Jadwal Kuliah';
+}
+
+enum Religion
+{
+    case Buddha;
+    case Hindu;
+    case Islam;
+    case Katolik;
+    case Konghucu;
+    case Kristen;
 }
