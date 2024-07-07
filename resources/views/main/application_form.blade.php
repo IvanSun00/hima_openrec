@@ -27,7 +27,7 @@
         echo '</pre>';
     @endphp --}}
 
-    <h1 class="text-3xl font-bold text-center text-white">Biodata Pendaftar</h1>
+    <h1 class="text-3xl font-bold text-center text-white font1">Biodata Pendaftar</h1>
     <section class="max-w-[940px] mx-auto pt-3 pb-16">
         <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
         <div
@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="grid sm:grid-cols-2 sm:gap-4">
-                 
+
                     <div class="relative mb-8" data-te-validate="input"
                         @error('instagram') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
                         data-te-input-wrapper-init>
@@ -309,7 +309,7 @@
                             id="priority-department1" name="priority_department1">
                             <option value="" selected hidden >-</option>
                             @foreach ($departments as $department)
-                                <option value="{{ $department['id'] }}" 
+                                <option value="{{ $department['id'] }}"
                                     {{ old('priority_department1') === $department['id'] || data_get($form, 'priority_department1', '-1') === $department['id'] ? 'selected' : '' }}>
                                     {{ $department['name'] }}
                                 </option>
@@ -320,7 +320,7 @@
 
                     <div class="relative mb-8" data-te-validate="input"
                         @error('priority_department2') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-                        <select 
+                        <select
                             {{ array_key_exists('id', $form) ? 'disabled' : '' }} data-te-select-init
                             id="priority-department2" name="priority_department2" readonly>
                             {{-- <option value="" hidden></option> --}}
@@ -345,7 +345,7 @@
 
                 <!--Submit button-->
                 <button type="submit"
-                    class="inline-block w-full rounded bg-[#e59980] px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68]  focus:outline-none focus:ring-0 active:bg-primary-700"
+                    class="inline-block w-full rounded bg-[#F8A348] px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68]  focus:outline-none focus:ring-0 active:bg-primary-700"
                     data-te-ripple-init data-te-ripple-color="light">
                     {{ !array_key_exists('id', $form) ? 'SUBMIT' : 'UPDATE' }}
                 </button>
