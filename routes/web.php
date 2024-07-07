@@ -21,7 +21,7 @@ use App\Models\Candidate;
 */
 
 Route::get('/', function () {
-    echo "Home Page";
+    return view('main.home');
 })->name('home');
 
 // Auth
