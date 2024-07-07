@@ -76,8 +76,9 @@ class BaseController extends Controller
         $requestFillable = $request->only($this->model->getFillable());
 
         $valid = Validator::make($requestFillable, $this->model->validationRules(), $this->model->validationMessages());
+        
         if($valid->fails()){
-            return ['error' => $valid->errors()];
+            return ['error' => $valid->errors(),'message' => $valid->errors()->first()];
         }
 
         return $this->model->create($requestFillable);
@@ -153,5 +154,36 @@ class BaseController extends Controller
         $delete->delete();
 
         return ['success' => 'Deleted Successfully!!'];
+    }
+
+    public function getSelectedColumn($column = ['*'], $filter = [], $relations = [], $orderBy = "")
+    {
+        if($orderBy != ""){
+            if(!empty($filter)){
+                return $this->model
+                ->select($column)
+                ->with($relations)
+                ->where($filter)
+                ->orderBy($orderBy)
+                ->get();
+            }
+            return $this->model
+            ->select($column)
+            ->with($relations)
+            ->orderBy($orderBy)
+            ->get();
+        }else{
+            if(!empty($filter)){
+                return $this->model
+                ->select($column)
+                ->with($relations)
+                ->where($filter)
+                ->get();
+            }
+            return $this->model
+            ->select($column)
+            ->with($relations)
+            ->get();
+        }
     }
 }

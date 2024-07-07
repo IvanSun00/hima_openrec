@@ -11,7 +11,13 @@ use Laravel\Socialite\Facades\Socialite;
 class AuthController extends Controller
 {
 
-    function login(){
+    function loginView(){
+        $data['error'] = session('error');
+        $data['title'] = "Login Page";
+        return view('main.login',$data);
+    }
+    
+    function loginRedirect(){
         return Socialite::driver('google')->redirect();
     }
 

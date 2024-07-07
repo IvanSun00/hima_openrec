@@ -25,24 +25,28 @@ class DepartmentSeeder extends Seeder
                 'slug' => 'bph',
             ],
             [
-                'name' => 'Academic and Education',
-                'slug' => 'ae',
+                'name' => 'Internal Development',
+                'slug' => 'id',
             ],
             [
-                'name' => 'Global Affairs',
-                'slug' => 'ga',
+                'name' => 'Creative n Branding',
+                'slug' => 'cnb',
             ],
             [
-                'name' => 'Talent Navigator',
-                'slug' => 'tn',
+                'name' => 'Human Resource Development',
+                'slug' => 'hrd',
             ],
             [
-                'name' => 'Artistry Creator',
-                'slug' => 'ac',
+                'name' => 'External Relationship',
+                'slug' => 'xr',
             ],
             [
                 'name' => 'Information System',
                 'slug' => 'is',
+            ],
+            [
+                'name' => 'Academic',
+                'slug' => 'ac',
             ]
         ];
 

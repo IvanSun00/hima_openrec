@@ -44,7 +44,7 @@ class CandidateSeeder extends Seeder
                 'documents' => null,
                 
                 'accepted_department' => null,
-                'priority_department1' => Department::where('slug', 'ae')->first()->id,
+                'priority_department1' => Department::where('slug', 'id')->first()->id,
                 'priority_department2' => Department::where('slug', 'is')->first()->id,
                 'phase' => 1,
             ],
@@ -71,7 +71,7 @@ class CandidateSeeder extends Seeder
                 
                 'accepted_department' => null,
                 'priority_department1' => Department::where('slug', 'is')->first()->id,
-                'priority_department2' => Department::where('slug', 'ga')->first()->id,
+                'priority_department2' => Department::where('slug', 'xr')->first()->id,
                 'phase' => 1,
             ]
         ];
