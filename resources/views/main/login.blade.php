@@ -104,7 +104,6 @@
     {{-- <div id="cursor"></div>
     <div id="cursor_2"></div> --}}
 
-    {{-- back btn --}}
     <nav
         class="flex-no-wrap flex w-full items-center justify-between py-2 shadow-md shadow-black lg:flex-wrap lg:justify-start lg:py-4 fixed top-0">
         <div class="flex w-full flex-wrap items-center justify-between px-5">
