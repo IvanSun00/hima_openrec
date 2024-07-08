@@ -61,6 +61,10 @@
                 <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">Second Department :
                     </b>{{ $applicant->priorityDepartment2['name'] }}</h1>
             @endisset
+            @isset($applicant->portfolio)
+                <a href="{{ $applicant->portfolio }}" class="uppercase text-lg mb-3" target="_blank"><b class="text-xl font-bold italic">Porfolio :
+                    </b><u class="text-blue-600 font-bold">Open Link</u></a>
+            @endisset
         </div>
         @foreach ($documentTypes as $type => $label)
             @php
