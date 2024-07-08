@@ -18,6 +18,19 @@
                 <div class="mb-4">
                     <label for="formFileMultiple" class="mb-2 inline-block text-neutral-700 dark:text-neutral-200">
                         {{ $label }} {{ in_array($type, $list_image) ? '(image)': '(PDF)' }}
+                        @if (strtolower($type) == 'mbti')
+                            <a href="https://www.16personalities.com/" target="_blank" class="text-[#F8A348] hover:text-[#ba7d68] underline">
+                                test here
+                            </a>
+                        @endif
+                        {{-- link to https://disc.tobsite.com/ --}}
+                        @if (strtolower($type) == 'disc')
+                            <a href="https://disc.tobsite.com/" target="_blank" class="text-[#F8A348] hover:text-[#ba7d68]  underline">
+                                test here
+                            </a>
+                        @endif
+
+
                     </label>
                     <form class="grid sm:grid-cols-5 sm:gap-4 grid-cols-3 gap-2"
                         action="{{ route('applicant.document.store', ['type' => strtolower($type)]) }}">
@@ -53,7 +66,7 @@
                             style="max-width: 100%">
                         @else 
                             <a href="{{ $imgSrc }}" target="_blank"
-                            class="{{ $applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents']) ? '' : 'hidden' }} text-primary underline">
+                            class="{{ $applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents']) ? '' : 'hidden' }} text-[#1DA1F2] hover:text-[#0d95e8] underline">
                                 Lihat dokumen {{ $type }}
                             </a>
                         @endif

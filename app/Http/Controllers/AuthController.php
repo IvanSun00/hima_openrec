@@ -26,6 +26,7 @@ class AuthController extends Controller
             $user = Socialite::driver('google')->user();
             $email = $user->email;
             $name = $user->name;
+
             // check apakah john.petra.ac.id
             if(str_ends_with($email, 'john.petra.ac.id')){
                 session()->put('nrp', substr($email, 0, 9));
@@ -49,7 +50,7 @@ class AuthController extends Controller
                 } else{
                     session()->put('isAdmin',false);
                     if (strpos($email, 'c1423') === 0) {
-                        return redirect()->intended(route('candidate.dashboard'));
+                        return redirect()->intended(route('applicant.application-form'));
                     } elseif (strpos($email, 'c14') === 0) {
                         if (session('error')) {
                             Log::info('Error Session: ' . session('error'));
@@ -105,7 +106,7 @@ class AuthController extends Controller
             return redirect()->intended(route('admin.dashboard'));
         }else{
             session()->put('isAdmin',false);
-            return redirect()->intended(route('candidate.dashboard'));
+            return redirect()->intended(route('applicant.application-form'));
         }
     }
 
