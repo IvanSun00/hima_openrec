@@ -367,7 +367,7 @@ $access = [
                     {{-- Meeting Spot --}}
                     <li class="mb-4 pl-2 sm:mb-0 sm:pl-0 sm:pr-1" data-te-nav-item-ref>
                         <a class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 sm:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
-                            href="{{ route('admin.meeting-spot') }}" data-te-nav-link-ref>Meeting Spot</a>
+                            href="{{ route('admin.meeting-spot') }}" data-te-nav-link-ref>Meeting Link</a>
                     </li>
 
                     {{-- Acceptance --}}
