@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Candidate;
 
 
@@ -37,12 +38,15 @@ Route::get('/assets/upload/{path}', [AssetController::class, 'upload'])->where('
 
 // admin page
 Route::prefix('admin')->middleware(['session','admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        $data['title'] = "Dashboard";
-        return view('admin.dashboard',$data);
-    })->name('admin.dashboard');
+    // Route::get('/dashboard', function () {
+    //     $data['title'] = "Dashboard";
+    //     return view('admin.dashboard',$data);
+    // })->name('admin.dashboard');
 
-    // Dates 
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/realtime', [DashboardController::class, 'getData'])->name('admin.dashboard.getData');
+
+    // Dates
     Route::prefix('dates')->middleware('role:is,bph')->group(function () {
         Route::get('/', [DateController::class, 'index'])->name('admin.date');
         Route::post('/', [DateController::class, 'add'])->name('admin.date.add');
@@ -121,7 +125,7 @@ Route::prefix('main')->middleware([])->group(function () {
             )
         );
 
-    // // tahap 3: 
+    // // tahap 3:
     Route::get('schedule-form', [CandidateController::class, 'scheduleForm'])->name('applicant.schedule-form');
     Route::post('get-schedule', [CandidateController::class, 'getTimeSlot'])->name('applicant.get-schedule');
     Route::post('pick-schedule', [CandidateController::class, 'pickSchedule'])->name('applicant.pick-schedule');

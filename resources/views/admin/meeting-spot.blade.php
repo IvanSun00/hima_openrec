@@ -39,7 +39,7 @@
                 </button>
             </div>
         </div>
-        <h1 class="text-start text-lg font-bold mb-2">Meeting Spot</h1>
+        {{-- <h1 class="text-start text-lg font-bold mb-2">Meeting Spot</h1>
         <div class="grid grid-cols-6 gap-3">
             <div class="relative mb-8 sm:col-span-5 col-span-4" data-te-input-wrapper-init>
                 <input
@@ -72,7 +72,7 @@
                     Submit
                 </button>
             </div>
-        </div>
+        </div> --}}
         <h1 class="text-start text-lg font-bold mb-2">Line id</h1>
         <div class="grid grid-cols-6 gap-3">
             <div class="relative mb-8 sm:col-span-5 col-span-4" data-te-input-wrapper-init>

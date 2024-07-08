@@ -10,18 +10,19 @@
         <div class="w-full px-8">
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">name : </b>{{ $applicant->name }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">nrp : </b>{{ substr($applicant->email,0,9) }}</h1>
-            <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">major : </b>{{ $applicant->major->english_name }}</h1>
+            <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">major : </b>{{ $applicant->major->name }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">gpa : </b>{{ $applicant->gpa }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">gender : </b>{{ $applicant->gender == 0 ? 'Male': 'Female' }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">birth place : </b>{{ $applicant->birth_place }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">birth date : </b>{{ $applicant->birth_date }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">religion : </b>{{ $applicant->religion }}</h1>
+            <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">address : </b>{{ $applicant->address }}</h1>
         </div>
+        <br>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
         <h1 class="text-center text-2xl uppercase font-bold italic mb-3">contact data</h1>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
         <div class="w-full px-8">
-            <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">address : </b>{{ $applicant->address }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">email : </b>{{ $applicant->email }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">phone : </b>{{ $applicant->phone }}</h1>
             <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">line : </b>{{ $applicant->line }}</h1>
@@ -30,6 +31,7 @@
                 <h1 class="uppercase text-lg mb-3"><b class="text-xl font-bold italic">tiktok : </b>{{ $applicant->tiktok }}</h1>
             @endif
         </div>
+        <br>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
         <h1 class="text-center text-2xl uppercase font-bold italic mb-3">Application data</h1>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
@@ -51,10 +53,11 @@
                 $imgSrc = route('upload', ['path' => strtolower($type) . '/' . data_get($applicant['documents'], strtolower($type))]);
             }
         @endphp
+        <br>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
         <h1 class="text-center text-2xl uppercase font-bold italic mb-3">{{ $label }} File <a href="{{ $imgSrc }}" target="_blank" class="text-blue-600 italic text-md"> >Open file< </a></h1>
         <div class="h-1 w-full bg-gradient-to-r from-gray-100 via-gray-400 to-gray-100 bg-repeat mb-4"></div>
-        
+
         <img src="{{ $imgSrc }}" alt="{{ $label }}"
             class="{{ $applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents']) ? '' : 'hidden' }} max-h-[400px] max-w mb-5"
             style="max-width: 100%">

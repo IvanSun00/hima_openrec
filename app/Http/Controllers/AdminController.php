@@ -28,7 +28,7 @@ class AdminController extends BaseController
         $allDocuments = array_column(DocumentType::cases(), 'value', 'name');
         return $allDocuments;
     }
-    
+
     public function detail(Candidate $candidate)
     {
         if ($candidate->stage < 2) {
@@ -36,7 +36,7 @@ class AdminController extends BaseController
         }
         $candidate->load($candidate->relations());
         $data = [
-            'title' => 'Detail Pendaftar',  
+            'title' => 'Detail Pendaftar',
             'applicant' => $candidate,
             'documentTypes' => self::documentTypes()
         ];

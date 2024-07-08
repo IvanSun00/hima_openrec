@@ -4,7 +4,7 @@
     @include('main.stepper', ['applicant' => $applicant])
 
     <div class="text-center">
-        <h1 class="text-3xl font-bold mb-2 text-white">Berkas Pendaftar</h1>
+        <h1 class="text-3xl font-bold mb-2 text-white font1">Berkas Pendaftar</h1>
         <div class="text-red-400">
             Hanya bisa mengupload satu kali. Pastikan berkas sudah benar sebelum menekan tombol UPLOAD.
         </div>
@@ -28,7 +28,7 @@
                             type="file" name="{{ strtolower($type) }}" @if ($applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents'])) disabled @endif
                             accept="{{ in_array($type, $list_image) ? '.PNG,.JPG,.JPEG': '.PDF' }}" />
                         <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                            class="inline-block rounded bg-[#e59980] sm:px-6 px-2.5 pb-1.5 pt-1.5 sm:text-sm text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68] focus:outline-none focus:ring-0 active:bg-primary-700 disabled:opacity-70 disabled:pointer-events-none"
+                            class="inline-block rounded bg-[#F8A348] sm:px-6 px-2.5 pb-1.5 pt-1.5 sm:text-sm text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68] focus:outline-none focus:ring-0 active:bg-primary-700 disabled:opacity-70 disabled:pointer-events-none"
                             @if ($applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents'])) disabled @endif>
                             UPLOAD
                         </button>

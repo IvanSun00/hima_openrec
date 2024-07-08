@@ -16,7 +16,7 @@ class AuthController extends Controller
         $data['title'] = "Login Page";
         return view('main.login',$data);
     }
-    
+
     function loginRedirect(){
         return Socialite::driver('google')->redirect();
     }
@@ -53,7 +53,7 @@ class AuthController extends Controller
             }else{
                 return redirect()->route('login')->with('error', 'Please Use Your @john.petra.ac.id email');
             }
-            
+
         }catch(\Exception $e){
             // add error to log
             Log::error('Google Login Process Error: ' . $e->getMessage());
@@ -99,8 +99,8 @@ class AuthController extends Controller
 
     function logout(Request $request) {
         $request->session()->flush();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
-    
+
 }
