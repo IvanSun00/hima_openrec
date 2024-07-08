@@ -458,7 +458,7 @@ class CandidateController extends BaseController
             $temp['prioritas1'] = $a->priorityDepartment1->name;
             $temp['prioritas2'] = $a->priorityDepartment2 == null ? "---" : $a->priorityDepartment2->name;
             $temp['divisi'] = $a->acceptedDepartment;
-            $temp['answer_link'] = route('upload', ['path' => 'hasil-interview/'.$candidate->hasil_interview]);
+            $temp['answer_link'] = route('upload', ['path' => 'hasil-interview/'.$a->hasil_interview]);
 
             $temp['action1'] =  "
                 <button
