@@ -93,7 +93,7 @@
         role="tabpanel"
         aria-labelledby="tabs-InternalDevelopment"
         data-te-tab-active>
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi Internal Development</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department Internal Development</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -104,7 +104,7 @@
                         placeholder="Search in Internal Development"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -132,7 +132,7 @@
         id="CreativenBranding"
         role="tabpanel"
         aria-labelledby="tabs-Creative n Branding">
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi Creative n Branding</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department Creative n Branding</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -143,7 +143,7 @@
                         placeholder="Search in Creative n Branding"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -171,7 +171,7 @@
         id="HumanResource"
         role="tabpanel"
         aria-labelledby="tabs-HumanResource">
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi Human Resource and Development</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department Human Resource and Development</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -182,7 +182,7 @@
                         placeholder="Search in Human Resource and Development"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -210,7 +210,7 @@
         id="ExternalRelationship"
         role="tabpanel"
         aria-labelledby="tabs-ExternalRelationship">
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi External Relationship</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department External Relationship</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -221,7 +221,7 @@
                         placeholder="Search in External Relationship"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -249,7 +249,7 @@
         id="InformationSystem"
         role="tabpanel"
         aria-labelledby="tabs-InformationSystem">
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi Information System</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department Information System</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -260,7 +260,7 @@
                         placeholder="Search in Information System"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -288,7 +288,7 @@
         id="Academic"
         role="tabpanel"
         aria-labelledby="tabs-Academic">
-            <h1 class="text-xl font-bold uppercase mb-1">Divisi Academic</h1>
+            <h1 class="text-xl font-bold uppercase mb-1">Department Academic</h1>
             <hr class="h-[2px] bg-slate-200 dark:bg-gray-600 mb-8 border-none" />
             <div class="px-8 w-full mb-1">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -299,7 +299,7 @@
                         placeholder="Search in Academic"
                         aria-label="Search"
                         aria-describedby="button-addon1" />
-                        
+
                         <!--Search button-->
                     <button
                         class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -329,7 +329,7 @@
 @section('script')
     <script>
         const data = JSON.parse(@json($accepted));
-        
+
         // Datatable document
         const ID = document.getElementById("datatable-InternalDevelopment");
         const CnB = document.getElementById("datatable-CreativenBranding");
@@ -339,7 +339,7 @@
         const AC = document.getElementById("datatable-Academic");
 
         // Inisialisasi Datatable
-        // Divisi Internal Development
+        // Department Internal Development
         const instanceID = new te.Datatable(
             ID,
             {
@@ -347,7 +347,7 @@
                     { label: "NRP", field: "nrp", fixed : true, sort: true },
                     { label: "Name", field: "name", fixed : true, sort: true },
                     { label: "Major", field: "major", sort : false},
-                    { label: "gpa", field: "gpa", sort : true },
+                    { label: "GPA", field: "gpa", sort : true },
                     { label: "Address", field: "address", sort: false},
                     { label: "Type", field: "type", sort: false},
                     { label: "Action", field: "action"},
@@ -378,7 +378,7 @@
             { hover: true, stripped : true }
         );
 
-        // Divisi Creative n Branding
+        // Department Creative n Branding
         const instanceCnB = new te.Datatable(
             CnB,
             {
@@ -417,7 +417,7 @@
             { hover: true, stripped : true }
         );
 
-        // Divisi Human Resource
+        // Department Human Resource
         const instanceHRD = new te.Datatable(
             HRD,
             {
@@ -456,7 +456,7 @@
             { hover: true, stripped : true }
         );
 
-        // Divisi External Relationship
+        // Department External Relationship
         const instanceXR = new te.Datatable(
             XR,
             {
@@ -495,7 +495,7 @@
             { hover: true, stripped : true }
         );
 
-        // Divisi Information System
+        // Department Information System
         const instanceIS = new te.Datatable(
             IS,
             {
@@ -534,7 +534,7 @@
             { hover: true, stripped : true }
         );
 
-        // Divisi Academic
+        // Department Academic
         const instanceAC = new te.Datatable(
             AC,
             {
