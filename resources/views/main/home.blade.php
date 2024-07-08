@@ -178,7 +178,7 @@
 @section('content')
     <nav
         class="flex-no-wrap flex w-full items-center justify-between py-2 shadow-md shadow-black lg:flex-wrap lg:justify-start lg:py-4 absolute top-0">
-        <div class="flex w-full flex-wrap items-center justify-between px-2 md:px-5">
+        <div class="flex w-full flex-wrap items-center justify-between px-5">
 
             <!-- Collapsible navigation container -->
             <div class="flex flex-grow justify-between items-center lg:!flex lg:basis-auto" id="navbarSupportedContent1"
