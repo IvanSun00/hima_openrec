@@ -287,6 +287,10 @@ class CandidateController extends BaseController
             $admin = $this->chooseInterviewer($schedules->pluck('admin_id'));
         }
 
+        if(!$admin) {
+            return redirect()->back()->with('error', 'Tidak ada interviewer yang tersedia!');
+        }
+
         $pickedSchedule[] = $schedules->where('admin_id', $admin->admin_id)->first();        
 
         DB::beginTransaction();
