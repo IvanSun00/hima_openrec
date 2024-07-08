@@ -16,9 +16,16 @@ use App\Http\Requests\ApplicationRequest;
 use App\Http\Requests\StoreDocumentRequest;
 use Illuminate\Http\UploadedFile;
 use App\Events\ApplicantDocumentsUploaded;
+use App\Http\Requests\PickScheduleRequest;
+use App\Models\Admin;
+use App\Models\Date;
+use App\Models\Schedule;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Collection;
 
-
-
+use Illuminate\Support\Facades\DB;
+use Sabberworm\CSS\Settings;
 
 class CandidateController extends BaseController
 {
@@ -150,7 +157,274 @@ class CandidateController extends BaseController
     
 
     // tahap 3
-    
+    public function scheduleForm()
+    {
+        $data['title'] = 'Pilih Jadwal Interview';
+
+        $applicant = Candidate::with(['priorityDepartment1', 'priorityDepartment2'])
+            ->where('email', session('email'))
+            ->where('stage', '>=', 2)
+            ->first();
+
+        if (!$applicant)
+            return redirect()->route('applicant.documents-form')
+                ->with('previous_stage_not_completed', 'Silahkan upload berkas Anda terlebih dahulu!');
+
+
+        $data['double_interview'] = false;
+        if ($applicant->stage >= 3) {
+            $data['read_only'] = true;
+            $data['schedules'] = Schedule::with('date')->with('admin')
+                ->where('candidate_id', $applicant->id)
+                ->get()
+                ->toArray();
+
+            //reschedule
+            $reschedule = [];
+
+            foreach ($data['schedules'] as $i => $schedule) {
+                // $reschedule[$i] = $this->canReschedule($schedule['date']['date'], $schedule['time']);
+                $reschedule[$i] = false;
+            }
+
+            // dd($reschedule);
+
+            $data['reschedule'] = $reschedule;
+        } else
+            $data['read_only'] = false;
+
+        $data['applicant'] = $applicant->toArray();
+
+        $lastHourToPickNextDay = 21;
+        if ($data['read_only']) {
+            $data['dates'] = Date::all()->toArray();
+        } else if ($data['read_only'] || now()->hour < $lastHourToPickNextDay) {
+            // $data['dates'] = Date::select('id', 'date')->where('date', '>', Carbon::now())->get()->toArray();
+            $data['dates'] = Date::select('id', 'date')->where('date', '>', Carbon::yesterday())->get()->toArray();
+        } else {
+            // $data['dates'] = Date::select('id', 'date')->where('date', '>', Carbon::tomorrow())->get()->toArray();
+            $data['dates'] = Date::select('id', 'date')->where('date', '>', Carbon::now())->get()->toArray();
+        }
+
+        // dd($data);
+
+        return view('main.schedule_form', $data);
+    }
+
+    public function getTimeSlot(Request $request)
+    {
+        $date = $request->date;
+        $online = intval($request->online);
+        $division = $request->division;
+        $isBphEnabled = true;
+        // $isBphEnabled = Setting::where('key', 'BPH')->first()->value == 1;
+
+        if ($isBphEnabled) $bph = Department::where('name', 'Badan Pengurus Harian')->first();
+
+        $interviewers = Admin::whereIn('dept_id', $isBphEnabled ? [$division, $bph->id] : [$division])->get();
+
+        $schedules = Schedule::select('time')
+            ->where([
+                'date_id' => $date,
+                'status' => 1,
+            ])
+            ->whereIn('online', $online === 1 ? [0, 1] : [0]) //ini ga kebalik ta
+            ->whereIn('admin_id', $interviewers->pluck('id'))
+            ->groupBy('time')
+            ->orderBy('time', 'asc')
+            ->pluck('time');
+
+        return response()->json(['success' => true, 'data' => $schedules]);
+    }
+
+    public function pickSchedule(PickScheduleRequest $request)
+    {
+        $validated = $request->validated();
+        $applicant = Candidate::where('email', session('email'))->first();
+        
+        // apakah sudah pernah isi
+        $schedule = Schedule::where('candidate_id', $applicant->id)->first();
+        if ($schedule) {
+            return redirect()->back()->with('error', 'Anda sudah memilih jadwal interview!');
+        }
+        
+        $pickedSchedule = [];
+
+        // get available schedules
+        $schedules = Schedule::join('admins', 'schedules.admin_id', '=', 'admins.id')
+            ->select('schedules.id', 'schedules.admin_id', 'schedules.date_id', 'schedules.time', 'schedules.online')
+            ->where([
+                'admins.dept_id' => $validated['division'][0],
+                'date_id' => $validated['date_id'],
+                'time' => $validated['time'],
+                'status' => 1,
+            ])
+            // ->whereIn('online', $validated['online'][$i] == 1 ? [0, 1] : [0])
+            ->get();
+
+        // dd($schedules);
+
+        // choose interviewer from selected division
+        $admin = $this->chooseInterviewer($schedules->pluck('admin_id'));
+        // dd($admin);
+
+        // if still there's none, pick interviewer from bph division
+        if (!$admin) {
+            $bph = Department::where('name', 'Badan Pengurus Harian')->first();
+
+            $schedules = Schedule::join('admins', 'schedules.admin_id', '=', 'admins.id')
+                ->select('schedules.id', 'schedules.admin_id', 'schedules.date_id', 'schedules.time', 'schedules.online')
+                ->where([
+                    'admins.dept_id' => $bph->id,
+                    'date_id' => $validated['date_id'],
+                    'time' => $validated['time'],
+                    'status' => 1,
+                ])
+                // ->whereIn('online', $validated['online'][$i] == 1 ? [0, 1] : [0])
+                ->get();
+
+            $admin = $this->chooseInterviewer($schedules->pluck('admin_id'));
+        }
+
+        $pickedSchedule[] = $schedules->where('admin_id', $admin->admin_id)->first();        
+
+        DB::beginTransaction();
+        try {
+            // update schedule and applicant stage
+            $this->updatePartial(['stage' => 3], $applicant->id);
+
+            foreach ($pickedSchedule as $key => $value) {
+                $schedule = Schedule::where('id', $value->id)->lockForUpdate()->first();
+
+                $schedule->status = 2;
+                $schedule->online = $validated['online'];
+                $schedule->candidate_id = $applicant->id;
+                $schedule->save();
+
+                $data['schedules'][] = $schedule->load(['admin', 'date']);
+            }
+
+            $data['applicant'] = $applicant->load(['priorityDepartment1', 'priorityDepartment2']);
+            
+            // dapet email lek ada yg daftar (skip sek)
+            // $emailSettings = Setting::where('key', 'Email')->first();
+            // // dd($emailSettings);
+            // if ($emailSettings->value == 1) {
+            //     $userMailer = new MailController(new scheduleMail($data));
+            //     // $userMailer->sendMail($data);
+            //     $data['to'] = $applicant->email;
+            //     dispatch(new SendMailJob($userMailer, $data));
+
+            //     foreach ($data['schedules'] as $s) {
+            //         $adminMailer = new MailController(new adminMail([
+            //             'schedules' => $s,
+            //             'applicant' => $data['applicant']
+            //         ]));
+            //         $data['to'] = $s->admin->email;
+            //         // $adminMailer->sendMail($data);
+            //         dispatch(new SendMailJob($adminMailer, $data));
+            //     }
+
+            //     DB::commit();
+            //     return redirect()->back()->with('success', 'Jadwal interview berhasil dipilih!');
+            // }
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Jadwal interview berhasil dipilih!');
+        } catch (Exception $e) {
+            // dd($e);
+            DB::rollback();
+            return redirect()->back()->with('error', 'Terjadi kesalahan! Silahkan coba lagi');
+        }
+    }
+
+    public function chooseInterviewer(Collection $admin_id)
+    {
+        // favor interviewer that haven't interview anyone
+        $admin = Schedule::select('admin_id')
+            ->whereIn('admin_id', $admin_id)
+            ->whereNotExists(function ($query) {
+                $query->select("*")
+                    ->from('schedules as s')
+                    ->whereColumn('s.admin_id', 'schedules.admin_id')
+                    ->where('s.status', 2);
+            })
+            ->groupBy('admin_id')
+            ->first();
+
+        // if there's none, pick interviewer with least interviewees
+        if (!$admin) {
+            $admin = Schedule::select('admin_id', DB::raw("COUNT(*) as count"))
+                ->whereIn('admin_id', $admin_id)
+                ->where('status', 2)
+                ->groupBy('admin_id')
+                ->orderBy('count', 'asc')
+                ->first();
+        }
+
+        return $admin;
+    }
+
+    // public function reschedule(Request $request)
+    // {
+    //     $schedule_id = $request->schedule_id;
+    //     $email = session('email');
+
+    //     $applicant = $this->model->findByEmail($email);
+    //     $schedule = $applicant->schedules()->where('id', $schedule_id);
+
+    //     if ($schedule) {
+    //         $schedule = $schedule->with('date')->first();
+    //         $reschedule_status = $applicant->reschedule;
+
+    //         //check current time
+    //         if (!$this->canReschedule($schedule->date->date, $schedule->time)) {
+    //             return redirect()->back()->with('error', 'Tidak dapat mengganti jadwal karena telah melebihi batas waktu');
+    //         }
+
+    //         $index = $schedule->type == 2 ? 1 : 0; //index for reschedule status to update
+
+    //         //check already request reschedule
+    //         if ($reschedule_status[$index] > 0) {
+    //             return redirect()->back()->with('success_confirm', 'Pengajuan ganti jadwal sudah diajukan. Silahkan menghubungi contact person untuk menentukan jadwal terbaru.');
+    //         }
+
+    //         //update reschadule status
+    //         $applicant->reschedule = $index == 0 ? "1" . $reschedule_status[1] : $reschedule_status[0] . "1";
+    //         $applicant->save();
+
+    //         $data['applicant'] = $applicant->load(['priorityDivision1', 'priorityDivision2']);
+    //         $data['schedules'] = $schedule->load(['admin', 'date']);
+    //         $data['to'] = $schedule->admin->email;
+
+    //         $emailSettings = Setting::where('key', 'Email')->first();
+
+    //         if ($emailSettings->value == 1) {
+    //             $rescheduleMailer = new MailController(new rescheduleMail($data));
+    //             dispatch(new SendMailJob($rescheduleMailer, $data));
+    //         }
+
+    //         return redirect()->back()->with('success_confirm', 'Pengajuan ganti jadwal sudah diajukan. Silahkan menghubungi contact person untuk menentukan jadwal terbaru.');
+    //     }
+
+    //     return redirect()->back()->with('error', 'Terjadi kesalahan! Silahkan coba lagi');
+    // }
+
+    // public function canReschedule($date, $time)
+    // {
+    //     return true;
+        
+    //     date_default_timezone_set('Asia/Jakarta');
+
+    //     //max date to reschedule
+    //     $tolerate = "-1 day +20 hours";                     //1 day before schedule and close at 20:00
+    //     // $tolerate = "-1 day +" . $time ." hours";       //exactly 24 hours before schedule
+
+    //     $current_date = date('Y-m-d H:i:s');
+    //     $max_date = date("Y-m-d H:i:s", strtotime($tolerate, strtotime($date)));
+
+    //     return $current_date < $max_date;
+    // }
 
 
 

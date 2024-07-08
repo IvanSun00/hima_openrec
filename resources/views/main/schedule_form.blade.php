@@ -3,217 +3,123 @@
 @section('content')
     @include('main.stepper', ['applicant' => $applicant])
 
-    @php
-        $onsiteOnly = ['Creative', 'Keamanan', 'Peran'];
-    @endphp
+    {{-- @php
+        // print error
+        echo '<pre>';
+        print_r($errors->all());
+        echo '</pre>';
 
+    @endphp --}}
     <h1 class="text-3xl font-bold text-center text-white">Pilih Jadwal Wawancara</h1>
 
-    @if ($applicant['astor'])
-        <section class="relative max-w-[940px] mx-auto pt-3 pb-16">
-            <div
-                class="block rounded-xl bg-white/10 backdrop-blur-md bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-                <div class="text-white">ASTOR tidak perlu melakukan interview.</div>
-            </div>
-        </section>
-    @else
-        <section class="relative max-w-[940px] mx-auto pt-3 pb-16">
-            <div
-                class="block rounded-xl bg-white/10 backdrop-blur-md bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-                <form data-te-validation-init action="{{ route('applicant.pick-schedule') }}" method="POST"
-                    id="application-applicant">
-                    @csrf
+    
+    <section class="relative max-w-[940px] mx-auto pt-3 pb-16">
+        <div
+            class="block rounded-xl bg-white/10 backdrop-blur-md bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+            <form data-te-validation-init action="{{ route('applicant.pick-schedule') }}" method="POST"
+                id="application-applicant">
+                @csrf
 
-                    <input type="hidden" name="division[]" id="division_1"
-                        value="{{ $applicant['priority_division1']['id'] }}">
-                    @if ($applicant['priority_division2'])
-                        <input type="hidden" name="division[]" id="division_2"
-                            value="{{ $applicant['priority_division2']['id'] }}">
-                    @endif
+                <input type="hidden" name="division[]" id="division_1"
+                    value="{{ $applicant['priority_department1']['id'] }}">
+                @if ($applicant['priority_department2'])
+                    <input type="hidden" name="division[]" id="division_2"
+                        value="{{ $applicant['priority_department2']['id'] }}">
+                @endif
 
-                    {{-- Wawancara pertama --}}
-                    <p class="text-lg font-semibold mb-4 text-white">Wawancara Divisi
-                        {{ strtoupper($applicant['priority_division1']['name']) }}
+                {{-- Wawancara pertama --}}
+                <p class="text-lg font-semibold mb-4 text-white">Wawancara Department
+                    {{ strtoupper($applicant['priority_department1']['name']) }}
 
-                        {{ $applicant['priority_division2'] && !$double_interview ? ' & ' . strtoupper($applicant['priority_division2']['name']) : '' }}
+                    {{ $applicant['priority_department2'] && !$double_interview ? ' & ' . strtoupper($applicant['priority_department2']['name']) : '' }}
+                </p>
 
-                        @if (in_array($applicant['priority_division1']['name'], $onsiteOnly))
-                            <span class="text-red-400">(Onsite Only)</span>
-                        @endif
-                    </p>
+                <div
+                    class="grid {{ $read_only && $reschedule[0] ? 'sm:grid-cols-5' : ($read_only ? 'sm:grid-cols-4' : 'sm:grid-cols-3') }} sm:gap-4 mb-4">
+                    <div data-te-validate="input" class="mb-4"
+                        @error('date_id') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
+                        <select data-te-select-init name="date_id" id="date_1"
+                            value="{{ $read_only ? $schedules[0]['date']['date'] : old('date_id') ?? '' }}"
+                            {{ $read_only ? 'disabled' : '' }}>
 
-                    <div
-                        class="grid {{ $read_only && $reschedule[0] ? 'sm:grid-cols-5' : ($read_only ? 'sm:grid-cols-4' : 'sm:grid-cols-3') }} sm:gap-4 mb-4">
-                        <div data-te-validate="input" class="mb-4"
-                            @error('date_id') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                            @error('date_id.0') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-                            <select data-te-select-init name="date_id[]" id="date_1"
-                                value="{{ $read_only ? $schedules[0]['date']['date'] : old('date_id')[0] ?? '' }}"
-                                {{ $read_only ? 'disabled' : '' }}>
+                            @foreach ($dates as $d)
+                                <option value="{{ $d['id'] }}"
+                                    @if ($read_only) {{ strval($schedules[0]['date_id']) === $d['id'] ? 'selected' : '' }} @endif
+                                    @if (!empty(old('date_id'))) {{ old('date_id')[0] == $d['id'] ? 'selected' : '' }} @endif>
+                                    {{ Datetime::createFromFormat('Y-m-d', $d['date'])->format('D, j M Y') }}
+                                </option>
+                            @endforeach
 
-                                @foreach ($dates as $d)
-                                    <option value="{{ $d['id'] }}"
-                                        @if ($read_only) {{ strval($schedules[0]['date_id']) === $d['id'] ? 'selected' : '' }} @endif
-                                        @if (!empty(old('date_id'))) {{ old('date_id')[0] == $d['id'] ? 'selected' : '' }} @endif>
-                                        {{ Datetime::createFromFormat('Y-m-d', $d['date'])->format('D, j M Y') }}
-                                    </option>
-                                @endforeach
+                        </select>
 
-                            </select>
-
-                            <label data-te-select-label-ref>Hari</label>
-                        </div>
-
-                        <div data-te-validate="input" class="mb-4"
-                            @error('online') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                            @error('online.0') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-
-                            <select data-te-select-init name="online[]" id="online_1" value=""
-                                {{ $read_only ? 'disabled' : '' }}>
-                                <option value="0"
-                                    @if ($read_only) {{ strval($schedules[0]['online']) === '0' ? 'selected' : '' }} @endif
-                                    @if (!empty(old('online'))) {{ old('online')[0] == '0' ? 'selected' : '' }} @endif>
-                                    Onsite</option>
-                                @if (!in_array($applicant['priority_division1']['name'], $onsiteOnly))
-                                    <option value="1"
-                                        @if ($read_only) {{ strval($schedules[0]['online']) === '1' ? 'selected' : '' }} @endif
-                                        @if (!empty(old('online'))) {{ old('online')[0] == '1' ? 'selected' : '' }} @endif>
-                                        Online</option>
-                                @endif
-                            </select>
-
-                            <label data-te-select-label-ref>Tipe</label>
-                        </div>
-
-                        <div data-te-validate="input" class="mb-4"
-                            @error('time') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                            @error('time.0') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-
-                            <select data-te-select-init name="time[]" id="time_1" {{ $read_only ? 'disabled' : '' }}>
-                                @if ($read_only)
-                                    <option value="{{ $schedules[0]['time'] }}" selected>
-                                        {{ str_pad(strval($schedules[0]['time']), 2, '0', STR_PAD_LEFT) }}:00 -
-                                        {{ str_pad(strval(intval($schedules[0]['time']) + 1), 2, '0', STR_PAD_LEFT) }}:00
-                                    </option>
-                                @endif
-                            </select>
-
-                            <label data-te-select-label-ref>Jam</label>
-                        </div>
-
-                        @includeWhen($read_only, 'main.interview_location_btn', ['i' => 0])
-
-                        @includeWhen($read_only && $reschedule[0], 'main.reschedule_button', ['i' => 0])
+                        <label data-te-select-label-ref>Hari</label>
                     </div>
-                    {{-- End wawancara pertama --}}
 
-                    {{-- Wawancara kedua --}}
-                    @if ($double_interview)
-                        <p class="text-lg font-semibold mt-10 md:mt-0 mb-4 text-white   ">Wawancara Divisi
-                            {{ strtoupper($applicant['priority_division2']['name']) }}
-                            @if (in_array($applicant['priority_division2']['name'], $onsiteOnly))
-                                <span class="text-red-400">(Onsite Only)</span>
+                    <div data-te-validate="input" class="mb-4"
+                        @error('online') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
+
+                        <select data-te-select-init name="online" id="online_1" value=""
+                            {{ $read_only ? 'disabled' : '' }}>
+                            <option value="1">Online</option>
+                        </select>
+
+                        <label data-te-select-label-ref>Tipe</label>
+                    </div>
+
+                    <div data-te-validate="input" class="mb-4"
+                        @error('time') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
+
+                        <select data-te-select-init name="time" id="time_1" {{ $read_only ? 'disabled' : '' }}>
+                            @if ($read_only)
+                                <option value="{{ $schedules[0]['time'] }}" selected>
+                                    {{ str_pad(strval($schedules[0]['time']), 2, '0', STR_PAD_LEFT) }}:00 -
+                                    {{ str_pad(strval(intval($schedules[0]['time']) + 1), 2, '0', STR_PAD_LEFT) }}:00
+                                </option>
                             @endif
-                        </p>
+                        </select>
 
-                        <div
-                            class="grid {{ $read_only && $reschedule[1] ? 'sm:grid-cols-5' : ($read_only ? 'sm:grid-cols-4' : 'sm:grid-cols-3') }} sm:gap-4 mb-4">
-                            <div data-te-validate="input" class="mb-4"
-                                @error('date_id') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                                @error('date_id.1') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-                                <select data-te-select-init name="date_id[]" id="date_2"
-                                    {{ $read_only ? 'disabled' : '' }}>
-                                    @foreach ($dates as $d)
-                                        <option value="{{ $d['id'] }}"
-                                            @if ($read_only) {{ strval($schedules[1]['date_id']) === $d['id'] ? 'selected' : '' }} @endif
-                                            @if (!empty(old('date_id'))) {{ old('date_id')[1] == $d['id'] ? 'selected' : '' }} @endif>
-                                            {{ Datetime::createFromFormat('Y-m-d', $d['date'])->format('D, j M Y') }}
-                                        </option>
-                                    @endforeach
+                        <label data-te-select-label-ref>Jam</label>
+                    </div>
 
-                                    <label data-te-select-label-ref>Hari</label>
-                                </select>
-                            </div>
+                    @includeWhen($read_only, 'main.partial.interview_location_btn', ['i' => 0])
 
-                            <div data-te-validate="input" class="mb-4"
-                                @error('online') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                                @error('online.1') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
+                    @includeWhen($read_only && $reschedule[0], 'main.partial.reschedule_button', ['i' => 0])
+                </div>
+                {{-- End wawancara pertama --}}
 
-                                <select data-te-select-init name="online[]" id="online_2"
-                                    {{ $read_only ? 'disabled' : '' }}>
-                                    <option value="0"
-                                        @if ($read_only) {{ strval($schedules[1]['online']) === '0' ? 'selected' : '' }} @endif
-                                        @if (!empty(old('online'))) {{ old('online')[1] == '0' ? 'selected' : '' }} @endif>
-                                        Onsite</option>
-                                    @if (!in_array($applicant['priority_division2']['name'], $onsiteOnly))
-                                        <option value="1"
-                                            @if ($read_only) {{ strval($schedules[1]['online']) === '1' ? 'selected' : '' }} @endif
-                                            @if (!empty(old('online'))) {{ old('online')[1] == '1' ? 'selected' : '' }} @endif>
-                                            Online</option>
-                                    @endif
-                                </select>
+                <!--Submit button-->
+                <button type="submit"
+                    class="inline-block w-full rounded bg-primary px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] {{ $read_only ? 'hidden' : '' }}"
+                    data-te-ripple-init data-te-ripple-color="light">
+                    PILIH
+                </button>
 
-                                <label data-te-select-label-ref>Tipe</label>
-                            </div>
+                @if (!$read_only)
+                    <p class="mt-5 text-center text-white">Jika tidak menemukan jadwal, bisa menghubungi Contact Person
+                        <span class="text-[#e59980]">@sun_04</span>
+                    </p>
+                @endif
+            </form>
 
-                            <div data-te-validate="input" class="mb-4"
-                                @error('time') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
-                                @error('time.1') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
+            <form action="{{ route('applicant.reschedule') }}" method="POST" id="reschedule-form0"
+                class="reschedule-form">
+                @csrf
+            </form>
+            <form action="{{ route('applicant.reschedule') }}" method="POST" id="reschedule-form1"
+                class="reschedule-form">
+                @csrf
+            </form>
+        </div>
+    </section>
 
-                                <select data-te-select-init name="time[]" id="time_2"
-                                    {{ $read_only ? 'disabled' : '' }}>
-                                    @if ($read_only)
-                                        <option value="{{ $schedules[1]['time'] }}" selected>
-                                            {{ str_pad(strval($schedules[1]['time']), 2, '0', STR_PAD_LEFT) }}:00 -
-                                            {{ str_pad(strval(intval($schedules[1]['time']) + 1), 2, '0', STR_PAD_LEFT) }}:00
-                                        </option>
-                                    @endif
-                                </select>
-
-                                <label data-te-select-label-ref>Jam</label>
-                            </div>
-
-                            @includeWhen($read_only, 'main.interview_location_btn', ['i' => 1])
-
-                            @includeWhen($read_only && $reschedule[1], 'main.reschedule_button', ['i' => 1])
-                        </div>
-                    @endif
-                    {{-- End wawancara kedua --}}
-
-                    <!--Submit button-->
-                    <button type="submit"
-                        class="inline-block w-full rounded bg-primary px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] {{ $read_only ? 'hidden' : '' }}"
-                        data-te-ripple-init data-te-ripple-color="light">
-                        PILIH
-                    </button>
-
-                    @if (!$read_only)
-                        <p class="mt-5 text-center text-white">Jika tidak menemukan jadwal, bisa menghubungi OA Line WGG
-                            <span class="text-[#e59980]">@328readn</span>
-                        </p>
-                    @endif
-                </form>
-
-                <form action="{{ route('applicant.reschedule') }}" method="POST" id="reschedule-form0"
-                    class="reschedule-form">
-                    @csrf
-                </form>
-                <form action="{{ route('applicant.reschedule') }}" method="POST" id="reschedule-form1"
-                    class="reschedule-form">
-                    @csrf
-                </form>
-            </div>
-        </section>
-
-        @includeWhen($read_only, 'main.interview_location_modal', ['i' => 0])
-        @includeWhen($double_interview && $read_only, 'main.interview_location_modal', ['i' => 1])
-        @includeWhen($read_only && $reschedule[0], 'main.reschedule_modal', ['i' => 0])
-        @includeWhen($double_interview && $read_only && $reschedule[1], 'main.reschedule_modal', ['i' => 1])
-    @endif
+    @includeWhen($read_only, 'main.partial.interview_location_modal', ['i' => 0])
+    @includeWhen($double_interview && $read_only, 'main.partial.interview_location_modal', ['i' => 1])
+    @includeWhen($read_only && $reschedule[0], 'main.partial.reschedule_modal', ['i' => 0])
+    @includeWhen($double_interview && $read_only && $reschedule[1], 'main.partial.reschedule_modal', ['i' => 1])
+    
 @endsection
 
 @section('scripts')
-    @if (!$applicant['astor'])
         <script>
             $(document).ready(async function() {
                 $('form[data-te-validation-init]').attr('data-te-validated', true);
@@ -223,13 +129,11 @@
                     let order = 0
                     order = 1
                     await getData($("#date_1").val(), $("#online_1").val(), $("#division_1").val())
-                    order = 2
-                    await getData($("#date_2").val(), $("#online_2").val(), $("#division_2").val())
                     order = 0
                 @endif
 
-                $("#date_1, #date_2").on("change", function() {
-                    order = $(this).attr("id") === "date_1" ? 1 : 2
+                $("#date_1").on("change", function() {
+                    order = 1 
                     const division = $("#division_" + order).val()
 
                     if ($("#online_" + order).val() != "") {
@@ -238,15 +142,15 @@
                     }
                 })
 
-                $("#online_1, #online_2").on("change", function() {
-                    order = $(this).attr("id") === "online_1" ? 1 : 2
-                    const division = $("#division_" + order).val()
+                // $("#online_1, #online_2").on("change", function() {
+                //     order = $(this).attr("id") === "online_1" ? 1 : 2
+                //     const division = $("#division_" + order).val()
 
-                    if ($("#date_" + order).val() != "") {
-                        const date = $("#date_" + order).val()
-                        getData(date, $(this).val(), division)
-                    }
-                })
+                //     if ($("#date_" + order).val() != "") {
+                //         const date = $("#date_" + order).val()
+                //         getData(date, $(this).val(), division)
+                //     }
+                // })
 
                 async function getData(date, online, divisi) {
                     Swal.showLoading();
@@ -350,5 +254,4 @@
                 // })
             })
         </script>
-    @endif
 @endsection
