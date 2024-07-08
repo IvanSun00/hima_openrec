@@ -9,6 +9,7 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class AdminController extends BaseController
 {
     public function __construct(Admin $model)
@@ -81,6 +82,15 @@ class AdminController extends BaseController
             'success' => true,
             'message' => 'Data Updated'
         ],200);
+    }
+
+    // upload hasil interview
+    public function hasilInterview(Candidate $candidate){
+        $data['title'] = 'Upload Hasil Interview';
+        $data['applicant'] = $candidate;
+        $data['type'] = "hasil-interview";
+
+        return view('admin.interview.upload-hasil',$data);
     }
 
 }
