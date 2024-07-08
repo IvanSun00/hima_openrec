@@ -132,7 +132,7 @@
     <!-- Main navigation container -->
     <nav
         class="flex-no-wrap relative flex w-full items-center justify-between py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
-        <div class="flex w-full flex-wrap items-center justify-between px-2 md:px-5">
+        <div class="flex w-full flex-wrap items-center justify-between px-5">
 
             <!-- Collapsible navigation container -->
             <div class="flex flex-grow justify-between items-center lg:!flex lg:basis-auto" id="navbarSupportedContent1"
