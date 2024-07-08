@@ -174,7 +174,7 @@ class Candidate extends Model
      * Controller associated with this model
      *
      * @var string
-     */
+    */
 
     public function controller()
     {

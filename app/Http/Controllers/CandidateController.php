@@ -106,6 +106,7 @@ class CandidateController extends BaseController
 
         $data['title'] = 'Upload Berkas';
         $data['documentTypes'] = self::documentTypes();
+        $data['list_image'] = ['Photo','Ktm'];
 
 
         $data['applicant'] = $applicant->toArray();
@@ -839,8 +840,10 @@ enum DocumentType: String
 {
     case Photo = 'Foto Diri 3x4';
     case Ktm = 'KTM / Profile Petra Mobile';
-    case Grades = 'Transkrip Nilai';
-    case Skkk = 'Transkrip SKKK Petra Mobile';
+    case Transkrip = 'Transkirp Nilai, SKKK, Bukti Kecurangan';
+    case Cv = 'CV';
+    case MBTI = 'MBTI Test';
+    case DISC = 'DISC Test';
 }
 
 enum Religion

@@ -61,8 +61,16 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
         Route::post('/division', [ScheduleController::class, 'scheduleDepartment'])->name('admin.interview.department');
         Route::get('/my', [ScheduleController::class, 'myInterview'])->name('admin.interview.my');
         Route::post('/kidnap', [ScheduleController::class, 'kidnap'])->name('admin.interview.kidnap');
-        Route::get('/reschedule', [ScheduleController::class, 'myReschedule'])->name('admin.interview.my-reschedule');
-        Route::post('/reschedule', [ScheduleController::class, 'reschedule'])->name('admin.interview.reschedule');
+        // Route::get('/reschedule', [ScheduleController::class, 'myReschedule'])->name('admin.interview.my-reschedule');
+        // Route::post('/reschedule', [ScheduleController::class, 'reschedule'])->name('admin.interview.reschedule');
+
+        // upload hasil interview
+        Route::get('/upload/{candidate}', [AdminController::class, 'hasilInterview'])->name('admin.interview.start');
+        Route::post('store-document/{type}', [AdminController::class, 'storeHasilInterview'])->name('admin.interview.store')
+        ->where(
+            'type',
+            'hasil-interview'
+        );
     });
 
 
@@ -84,10 +92,11 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
     });
 
 
-    // detail candidate (belum)
+    // detail candidate (done)
     Route::get('/detail/{candidate}', [AdminController::class, 'detail'])->name('admin.candidate.detail');
-    // candidate cv (belum)
-    Route::get('/applicant-cv/{applicant}', [AdminController::class, 'candidateCV'])->name('admin.candidate.cv');
+    // candidate cv (belum: sek error mbo nantian )
+    // Route::get('/candidate-cv/{candidate}', [AdminController::class, 'candidateCV'])->name('admin.candidate.cv');
+    Route::get('/candidate-cv/{candidate}', [AdminController::class, 'detail'])->name('admin.candidate.cv');
     // candidate hasil interview (belum)
     Route::get('/applicant-interview/{applicant}', [AdminController::class, 'interviewResult'])->name('admin.candidate.result');
 

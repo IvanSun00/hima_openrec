@@ -17,15 +17,16 @@
             @foreach ($documentTypes as $type => $label)
                 <div class="mb-4">
                     <label for="formFileMultiple" class="mb-2 inline-block text-neutral-700 dark:text-neutral-200">
-                        {{ $label }}
+                        {{ $label }} {{ in_array($type, $list_image) ? '(image)': '(PDF)' }}
                     </label>
                     <form class="grid sm:grid-cols-5 sm:gap-4 grid-cols-3 gap-2"
                         action="{{ route('applicant.document.store', ['type' => strtolower($type)]) }}">
                         @csrf
                         <input
                             class="relative m-0 block sm:col-span-4 col-span-2 min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary disabled:opacity-60"
+                            id = "{{ in_array($type, $list_image) ? 'input-gambar': '' }}"
                             type="file" name="{{ strtolower($type) }}" @if ($applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents'])) disabled @endif
-                            accept=".PNG,.JPG,.JPEG" />
+                            accept="{{ in_array($type, $list_image) ? '.PNG,.JPG,.JPEG': '.PDF' }}" />
                         <button type="submit" data-te-ripple-init data-te-ripple-color="light"
                             class="inline-block rounded bg-[#e59980] sm:px-6 px-2.5 pb-1.5 pt-1.5 sm:text-sm text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68] focus:outline-none focus:ring-0 active:bg-primary-700 disabled:opacity-70 disabled:pointer-events-none"
                             @if ($applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents'])) disabled @endif>
@@ -41,13 +42,21 @@
                     <div class="preview mt-2">
                         @php
                             $imgSrc = '';
+                            $isImage = in_array($type, $list_image);
                             if ($applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents'])) {
                                 $imgSrc = route('upload', ['path' => strtolower($type) . '/' . data_get($applicant['documents'], strtolower($type))]);
                             }
                         @endphp
-                        <img src="{{ $imgSrc }}" alt="{{ $label }}"
+                        @if ($isImage)
+                            <img src="{{ $imgSrc }}" alt="{{ $label }}"
                             class="{{ $applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents']) ? '' : 'hidden' }} max-h-[400px] max-w"
                             style="max-width: 100%">
+                        @else 
+                            <a href="{{ $imgSrc }}" target="_blank"
+                            class="{{ $applicant['documents'] && array_key_exists(strtolower($type), $applicant['documents']) ? '' : 'hidden' }} text-primary underline">
+                                Lihat dokumen {{ $type }}
+                            </a>
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -58,7 +67,7 @@
 @section('scripts')
     <script>
         $(document).ready(() => {
-            $('form > input').on('change', function() {
+            $('form > #input-gambar').on('change', function() {
                 const [input] = $(this);
                 if (!input) return;
 
@@ -78,6 +87,11 @@
                 const storeUrl = $(this).attr('action');
                 const type = storeUrl.split('/').pop();
                 const formData = new FormData(this);
+                // liat data yang di upload 
+                console.log(formData.get(type));
+                console.log(storeUrl);
+                console.log(formData);
+            
                 $.ajax({
                     type: 'POST',
                     url: storeUrl,

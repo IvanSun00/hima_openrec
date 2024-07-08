@@ -98,7 +98,7 @@ class ScheduleController extends BaseController
             $temp['priorityDepartment1'] = $i['candidate']['priority_department1']['name'];
             $temp['priorityDepartment2'] = $i['candidate']['priority_department2'] ? $i['candidate']['priority_department2']['name'] : '-';
             $temp['online'] = $i['online'];
-            // $temp['link'] = route('admin.interview.start',$i['id']); //wawancara applicant -> mau tak buat jadi upload hasil wawancara applicant
+            $temp['link'] = route('admin.interview.start',$i['candidate']['id']); //wawancara applicant -> mau tak buat jadi upload hasil wawancara applicant
             $temp['detail'] = route('admin.candidate.detail',$i['candidate_id']); //detail applicant
             $temp['spot'] = $i['admin']['spot'];
             $temp['meet'] = $i['admin']['meet'];

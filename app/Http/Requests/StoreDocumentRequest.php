@@ -27,6 +27,7 @@ class StoreDocumentRequest extends FormRequest
     public function rules(): array
     {
         $documentTypes = array_column(DocumentType::cases(), 'name');
+        $list_image = ['Photo','Ktm'];
         $rules = [];
         foreach ($documentTypes as $documentType) {
             $allExcludeCurrentType = array_filter($documentTypes, function ($dt) use ($documentType) {
@@ -36,8 +37,8 @@ class StoreDocumentRequest extends FormRequest
             $rules[strtolower($documentType)] = [
                 'required_without_all:' . strtolower(join(',', $allExcludeCurrentType)),
                 new DocumentExistsRule(),
+                in_array($documentType, $list_image) ? File::types(['jpg', 'jpeg', 'png'])->max(5120) : File::types(['pdf'])->max(5120),
             ];
-            $rules[strtolower($documentType)][] = File::image()->max('5mb');
         }
 
         return $rules;
@@ -56,7 +57,7 @@ class StoreDocumentRequest extends FormRequest
             $messages[strtolower($documentType->name) . '.required_without_all'] = $documentType->value . ' file is required';
             $messages[strtolower($documentType->name) . '.image'] = $documentType->value . ' file must be an image';
             $messages[strtolower($documentType->name) . '.max'] = $documentType->value . ' file size must be less than 5mb';
-            $messages[strtolower($documentType->name) . '.mimes'] = $documentType->value . ' file must be a file of type: jpg, png';
+            $messages[strtolower($documentType->name) . '.mimes'] = in_array($documentType->name, ['Photo','Ktm'])? $documentType->value . ' file must be a file of type: jpg, png' : $documentType->value . ' file must be a file of type:  pdf';
         }
 
         return $messages;
