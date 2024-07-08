@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <link rel="icon" href="{{ asset('assets/img/logo-web.png') }}">
     <title>Admin | {{ $title }}</title>
     {{-- sweetalert cdn --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -160,7 +161,7 @@ $access = [
                     <span>All Interviews</span>
                 </a>
             </li>
-            
+
             <li class="relative pt-6">
                 <span class="px-6 py-4 text-[0.6rem] font-bold uppercase text-gray-600 dark:text-gray-400">Meeting
                     Spot</span>

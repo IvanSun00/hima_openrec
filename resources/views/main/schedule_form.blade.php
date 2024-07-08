@@ -10,9 +10,9 @@
         echo '</pre>';
 
     @endphp --}}
-    <h1 class="text-3xl font-bold text-center text-white">Pilih Jadwal Wawancara</h1>
+    <h1 class="text-3xl font-bold text-center text-white font1">Pilih Jadwal Wawancara</h1>
 
-    
+
     <section class="relative max-w-[940px] mx-auto pt-3 pb-16">
         <div
             class="block rounded-xl bg-white/10 backdrop-blur-md bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
@@ -72,8 +72,8 @@
                         <select data-te-select-init name="time" id="time_1" {{ $read_only ? 'disabled' : '' }}>
                             @if ($read_only)
                                 <option value="{{ $schedules[0]['time'] }}" selected>
-                                    {{ str_pad(strval($schedules[0]['time']), 2, '0', STR_PAD_LEFT) }}:00 -
-                                    {{ str_pad(strval(intval($schedules[0]['time']) + 1), 2, '0', STR_PAD_LEFT) }}:00
+                                    {{ str_pad(strval($schedules[0]['time']), 2, '0', STR_PAD_LEFT) }}:30 -
+                                    {{ str_pad(strval(intval($schedules[0]['time']) + 1), 2, '0', STR_PAD_LEFT) }}:30
                                 </option>
                             @endif
                         </select>
@@ -89,7 +89,7 @@
 
                 <!--Submit button-->
                 <button type="submit"
-                    class="inline-block w-full rounded bg-primary px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] {{ $read_only ? 'hidden' : '' }}"
+                    class="inline-block w-full rounded bg-primary px-6 pb-2 pt-2 mt-2 text-md font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-[#ba7d68] focus:bg-[#ba7d68] focus:outline-none focus:ring-0 {{ $read_only ? 'hidden' : '' }}"
                     data-te-ripple-init data-te-ripple-color="light">
                     PILIH
                 </button>
@@ -116,7 +116,7 @@
     @includeWhen($double_interview && $read_only, 'main.partial.interview_location_modal', ['i' => 1])
     @includeWhen($read_only && $reschedule[0], 'main.partial.reschedule_modal', ['i' => 0])
     @includeWhen($double_interview && $read_only && $reschedule[1], 'main.partial.reschedule_modal', ['i' => 1])
-    
+
 @endsection
 
 @section('scripts')
@@ -133,7 +133,7 @@
                 @endif
 
                 $("#date_1").on("change", function() {
-                    order = 1 
+                    order = 1
                     const division = $("#division_" + order).val()
 
                     if ($("#online_" + order).val() != "") {
@@ -176,9 +176,9 @@
                             response.data.map((t) => {
                                 $("#time_" + order).append(
                                     `<option value='` + t + `'>` +
-                                    t.toString().padStart(2, '0') + ':00 - ' + (
+                                    t.toString().padStart(2, '0') + ':30 - ' + (
                                         parseInt(t) + 1)
-                                    .toString().padStart(2, '0') + ':00' +
+                                    .toString().padStart(2, '0') + ':30' +
                                     "</option>"
                                 )
                             })

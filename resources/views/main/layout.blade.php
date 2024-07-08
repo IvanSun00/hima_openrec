@@ -143,14 +143,14 @@
                     <img src="{{ asset('assets/img/logo-web.png') }}" style="height: 36px" alt="Logo HIMA"
                         loading="lazy" />
                 </a>
-                @if (Session::has('isAdmin') && session('isAdmin'))
+                {{-- @if (Session::has('isAdmin') && session('isAdmin'))
                     <ul class="list-style-none mx-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                         <li class="lg:mb-0 lg:pr-2" data-te-nav-item-ref>
                             <a class="transition duration-200 hover:text-neutral-300 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400 text-white text-center"
                                 href="{{ route('admin.dashboard') }}" data-te-nav-link-ref>Admin Page</a>
                         </li>
                     </ul>
-                @endif
+                @endif --}}
             </div>
 
             <!-- Right elements -->
