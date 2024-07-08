@@ -33,7 +33,7 @@ class DepartmentSeeder extends Seeder
                 'slug' => 'cnb',
             ],
             [
-                'name' => 'Human Resources Development',
+                'name' => 'Human Resource Development',
                 'slug' => 'hrd',
             ],
             [
