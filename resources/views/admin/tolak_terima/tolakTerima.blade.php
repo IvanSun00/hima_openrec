@@ -59,7 +59,7 @@
                         Detail
                         </a>
 
-                        <a href="{{ route('admin.candidate.result', '') }}/${item.id}" target="_blank"
+                        <a href="${item.answer_link}" target="_blank"
                         type="button"
                         class="btn-answer inline-block rounded bg-stone-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-stone-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-stone-700 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-stone-700 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-stone-800 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-stone-700 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-stone-800 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-stone-800 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-stone-700 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]">
                         Answer
