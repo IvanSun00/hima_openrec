@@ -42,7 +42,7 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
         return view('admin.dashboard',$data);
     })->name('admin.dashboard');
 
-    // Dates 
+    // Dates
     Route::prefix('dates')->middleware('role:is,bph')->group(function () {
         Route::get('/', [DateController::class, 'index'])->name('admin.date');
         Route::post('/', [DateController::class, 'add'])->name('admin.date.add');
@@ -112,7 +112,7 @@ Route::prefix('main')->middleware([])->group(function () {
             )
         );
 
-    // // tahap 3: 
+    // // tahap 3:
     Route::get('schedule-form', [CandidateController::class, 'scheduleForm'])->name('applicant.schedule-form');
     Route::post('get-schedule', [CandidateController::class, 'getTimeSlot'])->name('applicant.get-schedule');
     Route::post('pick-schedule', [CandidateController::class, 'pickSchedule'])->name('applicant.pick-schedule');
