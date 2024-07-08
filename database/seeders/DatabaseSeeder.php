@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             MajorSeeder::class,
             AdminSeeder::class,
-            CandidateSeeder::class,
-            ScheduleSeeder::class,
+            // CandidateSeeder::class,
+            // ScheduleSeeder::class,
         ]);
     }
 }

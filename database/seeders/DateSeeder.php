@@ -19,10 +19,6 @@ class DateSeeder extends Seeder
         DB::table('dates')->truncate();
         Schema::enableForeignKeyConstraints();
         $date= [
-            // 2024-07-09 - 2024-07-21
-            // [
-            //     'date' => '2024-07-09',
-            // ],
             [
                 'date' => '2024-07-10',
             ],
