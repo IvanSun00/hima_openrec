@@ -108,7 +108,7 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
 
 
 // candidate page (belum ada middleware applicant)
-Route::prefix('main')->middleware([])->group(function () {
+Route::prefix('main')->middleware(['applicant'])->group(function () {
     //tahap 1:
     Route::get('application-form', [CandidateController::class, 'applicationForm'])->name('applicant.application-form');
     Route::post('store-application', [CandidateController::class, 'storeApplication'])->name('applicant.application.store');
