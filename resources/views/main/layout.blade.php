@@ -13,6 +13,8 @@
     <script src="https://cdn.tailwindcss.com/3.3.0"></script>
     <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+    <link rel="icon" href="{{ asset('assets/img/logo-web.png') }}">
+
     <style>
         @font-face {
             font-family: intro;
@@ -96,6 +98,14 @@
         input:disabled,
         textarea:disabled {
             background: #aaaaaa50 !important;
+        }
+
+        input:-webkit-autofill,
+        textarea:-webkit-autofill,
+        select:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px var(--bg) inset !important;
+            -webkit-text-fill-color: #F8A348 !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
     </style>
 

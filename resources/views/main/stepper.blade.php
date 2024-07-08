@@ -12,13 +12,13 @@
                 $textClass = '!text-[#317AB6]';
                 $connR = 'after:bg-neutral-200';
             } elseif ($applicant['stage'] > 0) {
-                $numClass = '!bg-[#33406C] text-white';
-                $textClass = '!text-[#33406C]';
+                $numClass = '!bg-[#52BAC1] text-white';
+                $textClass = '!text-[#52BAC1]';
 
                 if ($applicant['stage'] == 1) {
                     $connR = 'after:bg-[#317AB6]';
                 } else {
-                    $connR = 'after:bg-[#33406C]';
+                    $connR = 'after:bg-[#52BAC1]';
                 }
             }
         @endphp
@@ -63,20 +63,20 @@
             $connR = '';
             if ($applicant['stage'] == 1) {
                 #317AB6
-                #33406C
+                #52BAC1
                 $numClass = '!bg-[#317AB6] !text-white';
                 $textClass = 'font-medium !text-[#317AB6]';
                 $connL = 'before:bg-[#317AB6]';
                 $connR = 'after:bg-neutral-200';
             } elseif ($applicant['stage'] > 1) {
-                $numClass = '!bg-[#33406C] !text-white';
-                $textClass = 'font-medium !text-[#33406C]';
-                $connL = 'before:bg-[#33406C]';
+                $numClass = '!bg-[#52BAC1] !text-white';
+                $textClass = 'font-medium !text-[#52BAC1]';
+                $connL = 'before:bg-[#52BAC1]';
 
                 if ($applicant['stage'] == 2) {
                     $connR = 'after:bg-[#317AB6]';
                 } else {
-                    $connR = 'after:bg-[#33406C]';
+                    $connR = 'after:bg-[#52BAC1]';
                 }
             } else {
                 $numClass = '!bg-neutral-200 !text-neutral-500';
@@ -124,9 +124,9 @@
                 $textClass = 'font-medium !text-[#317AB6]';
                 $connL = 'before:bg-[#317AB6]';
             } elseif ($applicant['stage'] > 2) {
-                $numClass = '!bg-[#33406C] !text-white';
-                $textClass = 'font-medium !text-[#33406C]';
-                $connL = 'before:bg-[#33406C]';
+                $numClass = '!bg-[#52BAC1] !text-white';
+                $textClass = 'font-medium !text-[#52BAC1]';
+                $connL = 'before:bg-[#52BAC1]';
 
             } else {
                 $numClass = '!bg-neutral-200 !text-neutral-500';
