@@ -44,7 +44,7 @@
 
         .card {
             /* background-color: #F8A348;
-                                                                                                        background-image: linear-gradient(43deg, #F8A348 0%, #C61F6D 100%); */
+                                                                                                                background-image: linear-gradient(43deg, #F8A348 0%, #C61F6D 100%); */
             transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
             background-color: rgba(255, 255, 255, 0.074);
             border: 1px solid rgba(255, 255, 255, 0.222);
@@ -171,9 +171,42 @@
             position: absolute;
         }
     </style>
+
+    @include('main.partial.star')
 @endsection
 
 @section('content')
+    <nav
+        class="flex-no-wrap flex w-full items-center justify-between py-2 shadow-md shadow-black lg:flex-wrap lg:justify-start lg:py-4 absolute top-0">
+        <div class="flex w-full flex-wrap items-center justify-between px-2 md:px-5">
+
+            <!-- Collapsible navigation container -->
+            <div class="flex flex-grow justify-between items-center lg:!flex lg:basis-auto" id="navbarSupportedContent1"
+                data-te-collapse-item>
+                <!-- Logo -->
+                <a class="mb-2 ml-2 mt-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0 w-fit"
+                    href="#">
+                    <img src="{{ asset('assets/img/logo-web.png') }}" style="height: 36px" alt="Logo HIMA" loading="lazy" />
+                </a>
+            </div>
+
+            <!-- Right elements -->
+            <div class="relative flex items-center">
+                <!-- Second dropdown container -->
+                <div class="relative" data-te-dropdown-alignment="end">
+                    <a href="{{ route('login') }}">
+                        <p class="text-white text-md sm:text-lg">Login</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="w-screen">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+    </section>
+
     <section class="w-9/12 min-h-[100svh] py-8 sm:py-0 flex flex-col justify-center items-center text-center">
         {{-- <h1 class="text-9xl font1 tracking-wide text-shadow">HIMAINFRA</h1>
         <h1 class="text-7xl font1 tracking-wide text-shadow">24/25</h1> --}}
@@ -327,7 +360,8 @@
     <section class="w-9/12 min-h-[100svh] py-8 sm:py-0 flex flex-col justify-center items-center text-center">
         <h1 class="text-5xl sm:text-7xl xl:text-9xl font1 tracking-wide text-shadow" data-aos="zoom-in-up"
             data-aos-duration="1000">JOIN NOW!</h1>
-        <ol class="border-s border-white mt-10" data-aos="zoom-in-down" data-aos-easing="linear" data-aos-duration="1000">
+        <ol class="border-s border-white mt-10" data-aos="zoom-in-down" data-aos-easing="linear"
+            data-aos-duration="1000">
             <li>
                 <div class="flex-start flex items-center pt-3">
                     <div class="-ms-[5px] me-3 h-[9px] w-[9px] rounded-full bg-white"></div>
