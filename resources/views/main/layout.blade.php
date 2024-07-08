@@ -18,7 +18,7 @@
     <style>
         @font-face {
             font-family: intro;
-            src: url("{{ asset('assets/font/intro.otf') }}") format('truetype');
+            src: url("{{ asset('assets/font/Intro.otf') }}") format('truetype');
         }
 
         body,
