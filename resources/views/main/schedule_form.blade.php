@@ -85,6 +85,9 @@
 
                     @includeWhen($read_only && $reschedule[0], 'main.partial.reschedule_button', ['i' => 0])
                 </div>
+
+                @includeWhen($read_only, 'main.partial.interview_contact', ['i' => 0])
+
                 {{-- End wawancara pertama --}}
 
                 <!--Submit button-->
@@ -95,8 +98,8 @@
                 </button>
 
                 @if (!$read_only)
-                    <p class="mt-5 text-center text-white">Jika tidak menemukan jadwal, bisa menghubungi Contact Person
-                        <span class="text-[#e59980]">@sun_04</span>
+                    <p class="mt-5 text-center text-white">Jika tidak menemukan jadwal, dapat menghubungi OA Line:
+                        <span class="text-[#e59980]">@urd5942g</span>
                     </p>
                 @endif
             </form>
