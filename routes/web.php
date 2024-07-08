@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Candidate;
 
 
@@ -37,10 +38,13 @@ Route::get('/assets/upload/{path}', [AssetController::class, 'upload'])->where('
 
 // admin page
 Route::prefix('admin')->middleware(['session','admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        $data['title'] = "Dashboard";
-        return view('admin.dashboard',$data);
-    })->name('admin.dashboard');
+    // Route::get('/dashboard', function () {
+    //     $data['title'] = "Dashboard";
+    //     return view('admin.dashboard',$data);
+    // })->name('admin.dashboard');
+
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::post('/realtime', [DashboardController::class, 'getData'])->name('admin.dashboard.getData');
 
     // Dates
     Route::prefix('dates')->middleware('role:is,bph')->group(function () {
