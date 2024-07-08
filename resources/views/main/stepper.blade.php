@@ -8,17 +8,17 @@
             $textClass = '';
             $connR = '';
             if ($applicant['stage'] == 0) {
-                $numClass = '!bg-[#804db3] text-white';
-                $textClass = '!text-[#804db3]';
+                $numClass = '!bg-[#317AB6] text-white';
+                $textClass = '!text-[#317AB6]';
                 $connR = 'after:bg-neutral-200';
             } elseif ($applicant['stage'] > 0) {
-                $numClass = '!bg-[#e59980] text-white';
-                $textClass = '!text-[#e59980]';
+                $numClass = '!bg-[#33406C] text-white';
+                $textClass = '!text-[#33406C]';
 
                 if ($applicant['stage'] == 1) {
-                    $connR = 'after:bg-[#804db3]';
+                    $connR = 'after:bg-[#317AB6]';
                 } else {
-                    $connR = 'after:bg-[#e59980]';
+                    $connR = 'after:bg-[#33406C]';
                 }
             }
         @endphp
@@ -62,21 +62,21 @@
             $connL = '';
             $connR = '';
             if ($applicant['stage'] == 1) {
-                #804db3
-                #e59980
-                $numClass = '!bg-[#804db3] !text-white';
-                $textClass = 'font-medium !text-[#804db3]';
-                $connL = 'before:bg-[#804db3]';
+                #317AB6
+                #33406C
+                $numClass = '!bg-[#317AB6] !text-white';
+                $textClass = 'font-medium !text-[#317AB6]';
+                $connL = 'before:bg-[#317AB6]';
                 $connR = 'after:bg-neutral-200';
             } elseif ($applicant['stage'] > 1) {
-                $numClass = '!bg-[#e59980] !text-white';
-                $textClass = 'font-medium !text-[#e59980]';
-                $connL = 'before:bg-[#e59980]';
+                $numClass = '!bg-[#33406C] !text-white';
+                $textClass = 'font-medium !text-[#33406C]';
+                $connL = 'before:bg-[#33406C]';
 
                 if ($applicant['stage'] == 2) {
-                    $connR = 'after:bg-[#804db3]';
+                    $connR = 'after:bg-[#317AB6]';
                 } else {
-                    $connR = 'after:bg-[#e59980]';
+                    $connR = 'after:bg-[#33406C]';
                 }
             } else {
                 $numClass = '!bg-neutral-200 !text-neutral-500';
@@ -120,13 +120,13 @@
             $textClass = '';
             $connL = '';
             if ($applicant['stage'] == 2) {
-                $numClass = '!bg-[#804db3] !text-white';
-                $textClass = 'font-medium !text-[#804db3]';
-                $connL = 'before:bg-[#804db3]';
+                $numClass = '!bg-[#317AB6] !text-white';
+                $textClass = 'font-medium !text-[#317AB6]';
+                $connL = 'before:bg-[#317AB6]';
             } elseif ($applicant['stage'] > 2) {
-                $numClass = '!bg-[#e59980] !text-white';
-                $textClass = 'font-medium !text-[#e59980]';
-                $connL = 'before:bg-[#e59980]';
+                $numClass = '!bg-[#33406C] !text-white';
+                $textClass = 'font-medium !text-[#33406C]';
+                $connL = 'before:bg-[#33406C]';
 
             } else {
                 $numClass = '!bg-neutral-200 !text-neutral-500';

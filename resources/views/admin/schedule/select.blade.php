@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-4 w-full h-full">
         @php
@@ -154,8 +154,10 @@
                                 showDenyButton: true,
                                 showCancelButton: true,
                                 confirmButtonText: "Change to Online",
-                                confirmgButtonColor: "#D0B739",
+                                confirmButtonColor: "#D0B739",
                                 denyButtonText: "Deactivate",
+                                denyButtonColor: "red",
+                                cancelButtonColor: "gray",
                             }).then((result) => {
                                 if(result.isConfirmed){
                                     data = {
@@ -186,6 +188,8 @@
                                 confirmButtonText: "Change to Onsite",
                                 confirmButtonColor: "#46C92C",
                                 denyButtonText: "Deactivate",
+                                denyButtonColor: "red",
+                                cancelButtonColor: "gray",
                             }).then((result) => {
                                 if(result.isConfirmed){
                                     data = {
@@ -218,6 +222,7 @@
                                 confirmButtonColor: "#46C92C",
                                 denyButtonText: "Online",
                                 denyButtonColor: "#D0B739",
+                                cancelButtonColor: "gray",
                             }).then((result) => {
                                 if(result.isConfirmed){
                                     data = {

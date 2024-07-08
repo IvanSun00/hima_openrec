@@ -9,24 +9,32 @@
     <title>Pendaftar {{ isset($title) ? '| ' . $title : '' }}</title>
 
     <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
     <script src="https://cdn.tailwindcss.com/3.3.0"></script>
     <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         @font-face {
-            font-family: dillan;
-            src: url('{{ asset('assets/dillan.otf') }}') format('truetype');
+            font-family: intro;
+            src: url("{{ asset('assets/font/intro.otf') }}") format('truetype');
+        }
+
+        body,
+        html {
+            overflow-x: hidden !important;
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Asap', sans-serif, 'Roboto', 'sans-serif';
-            cursor: url('{{ asset('assets/baymax-touch-smol.png') }}') 25 25, auto;
-            background: rgb(16, 23, 57);
-            background: linear-gradient(180deg, rgba(16, 23, 57, 1) 0%, rgba(48, 63, 107, 1) 50%, rgba(86, 71, 120, 1) 100%);
+            background: var(--bg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("{{ asset('assets/img/background.png') }}");
+            background-size: cover;
+            color: var(--text);
+        }
+
+        :root {
+            --text: #D8CFC2;
+            --bg: #2B2828;
         }
 
         ::-webkit-scrollbar {
@@ -34,15 +42,24 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgb(23, 24, 56);
-            background: linear-gradient(180deg, rgba(23, 24, 56, 1) 0%, rgba(126, 126, 194, 1) 49%, rgba(237, 214, 235, 1) 100%);
+            background: #317AB6;
+            background: linear-gradient(180deg,
+                    #C1D6E2 0%,
+                    #52BAC1 49%,
+                    #317AB6 100%);
             border-radius: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            width: 0;
-            background: rgb(23, 24, 56);
-            /* background-color: transparent !important; */
+            background-color: var(--bg);
+        }
+
+        .font1 {
+            font-family: intro;
+        }
+
+        .text-shadow {
+            text-shadow: 5px 5px 2px rgba(0, 0, 0, 0.75);
         }
 
         label {
@@ -52,11 +69,11 @@
         input,
         textarea,
         select {
-            color: rgb(229, 153, 128) !important;
+            color: #F8A348 !important;
         }
 
         input:focused {
-            outline: rgb(229, 153, 128) !important;
+            outline: #F8A348 !important;
         }
 
         form svg {
@@ -65,6 +82,15 @@
 
         form button[id*='datepicker-toggle'] svg {
             fill: #fff !important;
+        }
+
+        [type=button],
+        [type=reset],
+        [type=submit],
+        button {
+            -webkit-appearance: button;
+            background-color: #F8A348;
+            background-image: none;
         }
 
         input:disabled,
@@ -95,7 +121,7 @@
     <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
     <!-- Main navigation container -->
     <nav
-        class="flex-no-wrap relative flex w-full items-center justify-between bg-[rgb(16, 23, 57)] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
+        class="flex-no-wrap relative flex w-full items-center justify-between py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
         <div class="flex w-full flex-wrap items-center justify-between px-2 md:px-5">
 
             <!-- Collapsible navigation container -->
@@ -104,7 +130,8 @@
                 <!-- Logo -->
                 <a class="mb-2 ml-2 mt-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0 w-fit"
                     href="#">
-                    <img src="{{ asset('assets/wgg.png') }}" style="height: 36px" alt="WGG Logo" loading="lazy" />
+                    <img src="{{ asset('assets/img/logo-web.png') }}" style="height: 36px" alt="Logo HIMA"
+                        loading="lazy" />
                 </a>
                 @if (Session::has('isAdmin') && session('isAdmin'))
                     <ul class="list-style-none mx-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
@@ -140,19 +167,6 @@
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        $(document).ready(function() {
-            $(document.body).on('touchstart mousedown', function() {
-                document.body.style.cursor = "url('{{ asset('assets/baymax-smol.png') }}') 25 25, auto"
-            })
-
-            $(document.body).on("touchend mouseup", function() {
-                document.body.style.cursor =
-                    "url('{{ asset('assets/baymax-touch-smol.png') }}') 25 25, auto"
-            })
-        })
-    </script>
 
     @yield('scripts')
 </body>
