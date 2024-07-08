@@ -120,7 +120,8 @@ class AdminController extends BaseController
 
         // update di table maba
         $candidate->update([
-            'hasil_interview' => $storeName
+            'hasil_interview' => $storeName,
+            'stage' => '4'
         ]);
 
         $candidate->refresh();
