@@ -53,7 +53,7 @@
 
         .card {
             /* background-color: #F8A348;
-                                                                                                                                        background-image: linear-gradient(43deg, #F8A348 0%, #C61F6D 100%); */
+                                                                                                                                            background-image: linear-gradient(43deg, #F8A348 0%, #C61F6D 100%); */
             transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
             background-color: rgba(255, 255, 255, 0.074);
             border: 1px solid rgba(255, 255, 255, 0.222);
@@ -185,7 +185,7 @@
 @section('script')
     <script>
         AOS.init();
-        $(document).ready(function() {
+        jQuery( document ).ready(function( $ ) {
             @if (Session::has('error'))
                 Swal.fire({
                     icon: 'error',
@@ -195,11 +195,9 @@
                     timer: 2500
                 });
             @endif
-            // $('#login').click(function() {
-            //     $('.g_id_signin').click();
-            // });
         });
     </script>
+
     <!-- Add this to your HTML body or in a separate script -->
     <script>
         // Load the Google Sign-In API
