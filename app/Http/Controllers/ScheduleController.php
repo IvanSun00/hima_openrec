@@ -89,9 +89,9 @@ class ScheduleController extends BaseController
             $temp['id'] = $i['id'];
             $dateObj = DateTime::createFromFormat('Y-m-d', $i['date']['date']);
             $temp['date'] = $dateObj->format('l, d M Y');
-            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':00 - 0'.($i['time']+1).':00';
-            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':00 - '.($i['time']+1).':00';
-            else $temp['time'] = $i['time'].':00 - '.($i['time']+1).':00';
+            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':30 - 0'.($i['time']+1).':30';
+            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':30 - '.($i['time']+1).':30';
+            else $temp['time'] = $i['time'].':30 - '.($i['time']+1).':30';
             $temp['name'] = $i['candidate']['name'];
             $temp['nrp'] = substr($i['candidate']['email'],0,9);
             $temp['major'] = $i['candidate']['major']['english_name'];
@@ -126,9 +126,9 @@ class ScheduleController extends BaseController
             $temp['id'] = $i['id'];
             $dateObj = DateTime::createFromFormat('Y-m-d', $i['date']['date']);
             $temp['date'] = $dateObj->format('l, d M Y');
-            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':00 - 0'.($i['time']+1).':00';
-            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':00 - '.($i['time']+1).':00';
-            else $temp['time'] = $i['time'].':00 - '.($i['time']+1).':00';
+            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':30 - 0'.($i['time']+1).':30';
+            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':30 - '.($i['time']+1).':30';
+            else $temp['time'] = $i['time'].':30 - '.($i['time']+1).':30';
             // $temp['date'] = $temp['date'].' '.$temp['time'];
             $temp['nrp'] = substr($i['candidate']['email'],0,9);
             $temp['name'] = $i['candidate']['name'];
@@ -173,9 +173,9 @@ class ScheduleController extends BaseController
             $temp['id'] = $i['id'];
             $dateObj = DateTime::createFromFormat('Y-m-d', $i['date']['date']);
             $temp['date'] = $dateObj->format('l, d M Y');
-            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':00 - 0'.($i['time']+1).':00';
-            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':00 - '.($i['time']+1).':00';
-            else $temp['time'] = $i['time'].':00 - '.($i['time']+1).':00';
+            if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':30 - 0'.($i['time']+1).':30';
+            else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':30 - '.($i['time']+1).':30';
+            else $temp['time'] = $i['time'].':30 - '.($i['time']+1).':30';
             // $temp['date'] = $temp['date'].' '.$temp['time'];
             $temp['nrp'] = substr($i['candidate']['email'],0,9);
             $temp['name'] = $i['candidate']['name'];
@@ -195,7 +195,7 @@ class ScheduleController extends BaseController
 
     // public function myReschedule(){
     //     $data['title'] = 'My Reschedule';
-    
+
     //     $interview = Schedule::with(['applicant.priorityDivision1','applicant.priorityDivision2','date', 'applicant.major'])
     //                     ->where(['admin_id' => session('admin_id'),'status' => 2])
     //                     ->whereHas('applicant', function ($query){
@@ -208,9 +208,9 @@ class ScheduleController extends BaseController
     //         $temp['id'] = $i['id'];
     //         $dateObj = DateTime::createFromFormat('Y-m-d', $i['date']['date']);
     //         $temp['date'] = $dateObj->format('l, d M Y');
-    //         if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':00 - 0'.($i['time']+1).':00';
-    //         else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':00 - '.($i['time']+1).':00';
-    //         else $temp['time'] = $i['time'].':00 - '.($i['time']+1).':00';
+    //         if($i['time'] < 9) $temp['time'] = '0'.$i['time'].':30 - 0'.($i['time']+1).':30';
+    //         else if($i['time'] == 9) $temp['time'] = '0'.$i['time'].':30 - '.($i['time']+1).':30';
+    //         else $temp['time'] = $i['time'].':30 - '.($i['time']+1).':30';
     //         $temp['name'] = $i['applicant']['name'];
     //         $temp['nrp'] = substr($i['applicant']['email'],0,9);
     //         $temp['major'] = $i['applicant']['major']['english_name'];
@@ -252,7 +252,7 @@ class ScheduleController extends BaseController
     //         if($schedule->date_id == $new_date_id && $schedule->online == $new_online && $schedule->time == $new_time){
     //             return redirect()->back()->with('error', 'Jadwal baru sama dengan jadwal lama!');
     //         }
-            
+
     //         //change online onsite only
     //         // if($schedule->date_id == $new_date_id && $schedule->online != $new_online && $schedule->time == $new_time){
     //         //     $schedule->online = $new_online;
@@ -266,23 +266,23 @@ class ScheduleController extends BaseController
     //         if($applicant_schedule){
     //             return redirect()->back()->with('error', 'Jadwal baru bertabrakan dengan jadwal interview lain Pendaftar!');
     //         }
-            
+
     //         //create or update new schedule
     //         $new_schedule = $this->model->where(['admin_id' => session('admin_id'), 'date_id' => $new_date_id, 'time' => $new_time])->lockForUpdate()->first();
-            
+
     //         //update new schedule
-    //         if($new_schedule){         
+    //         if($new_schedule){
     //             //check is there any another interview at that time
     //             if($new_schedule->applicant_id != null || $new_schedule->status != 1){
     //                 return redirect()->back()->with('error', 'Jadwal baru bertabrakan dengan jadwal interview Anda yang lain!');
     //             }
-                
+
     //             $new_schedule->applicant_id = $applicant_id;
     //             $new_schedule->status = 2;
     //             $new_schedule->type = $type;
     //             $new_schedule->online = $new_online;
     //             $new_schedule->save();
-                
+
     //         }else{
     //             //create new schedule
     //             $new_schedule = $schedule->replicate();
@@ -298,7 +298,7 @@ class ScheduleController extends BaseController
     //         $schedule->status = 1;
     //         $schedule->type = 0;
     //         $schedule->save();
-            
+
     //         $this->updateRescheduleStatus($applicant_id, $type, 2);
     //         DB::commit();
     //         return redirect()->back()->with('success', 'Jadwal berhasil diubah');
@@ -307,7 +307,7 @@ class ScheduleController extends BaseController
     //         DB::rollback();
     //         return redirect()->back()->with('error', 'Terjadi kesalahan! Silahkan coba lagi');
     //     }
-        
+
     //     return redirect()->back()->with('error', 'Terjadi kesalahan! Silahkan coba lagi');
     // }
 

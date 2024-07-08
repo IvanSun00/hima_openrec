@@ -8,7 +8,7 @@
 @section('content')
 <div class="flex flex-col w-full py-8 rounded-lg shadow-xl items-center justify-center mb-10">
     <h1 class="text-center text-4xl uppercase font-bold">Tolak-Terima Anak</h1>
-</div>  
+</div>
 
 <div class="flex flex-col w-full py-8 rounded-lg shadow-xl items-center justify-center mb-8">
     <div class="relative px-5 flex w-full flex-wrap justify-end items-stretch">
@@ -20,9 +20,9 @@
             aria-label="Search"
             aria-describedby="button-addon1" />
     </div>
-    <div id="datatable" class="w-full px-5 py-5"></div> 
+    <div id="datatable" class="w-full px-5 py-5"></div>
 </div>
-    
+
 @endsection
 
 @section('script')
@@ -31,7 +31,7 @@
             const customDatatable = document.getElementById("datatable");
             var data = JSON.parse(@json($applicant));
 
-            
+
 
             var table = new te.Datatable(
             customDatatable,
@@ -40,10 +40,10 @@
                 { label: "No", field: "no" },
                 { label: "NRP", field: "nrp" },
                 { label: "Nama", field: "name" },
-                { label: "prioritas 1", field: "prioritas1" },
-                { label: "prioritas 2", field: "prioritas2" },
-                { label: "action 1", field: "action1" },
-                { label: "action 2", field: "action2" },
+                { label: "Prioritas 1", field: "prioritas1" },
+                { label: "Prioritas 2", field: "prioritas2" },
+                { label: "Action 1", field: "action1" },
+                { label: "Action 2", field: "action2" },
                 { label: "Detail", field: "detail", sort: false },
                 ],
                 rows: data
@@ -229,9 +229,9 @@
                     }
                 })
             })
-    
+
         });
 
     </script>
-    
+
 @endsection

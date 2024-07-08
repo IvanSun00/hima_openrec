@@ -34,6 +34,7 @@ return new class extends Migration
             $table->text('strength');
             $table->text('weakness');
             $table->text('experience')->nullable();
+            $table->text('portfolio')->nullable();
             $table->json('documents')->nullable();
 
             $table->uuid('accepted_department')->nullable();

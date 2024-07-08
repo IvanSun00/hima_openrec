@@ -46,9 +46,21 @@ class AuthController extends Controller
                     session()->put('role',$admin->department->slug);
                     session()->put('isAdmin',true);
                     return redirect()->intended(route('admin.dashboard'));
-                }else{
+                } else{
                     session()->put('isAdmin',false);
-                    return redirect()->intended(route('candidate.dashboard'));
+                    if (strpos($email, 'c1423') === 0) {
+                        return redirect()->intended(route('candidate.dashboard'));
+                    } elseif (strpos($email, 'c14') === 0) {
+                        if (session('error')) {
+                            Log::info('Error Session: ' . session('error'));
+                        }
+                        return redirect()->route('login')->with('error', 'Anda harus berasal dari angkatan 2023');
+                    } else {
+                        if (session('error')) {
+                            Log::info('Error Session: ' . session('error'));
+                        }
+                        return redirect()->route('login')->with('error', 'Anda harus berasal dari prodi Informatika-SIB-DSA');
+                    }
                 }
             }else{
                 return redirect()->route('login')->with('error', 'Please Use Your @john.petra.ac.id email');

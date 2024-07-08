@@ -50,7 +50,7 @@ $access = [
         data-te-sidenav-accordion="true">
         <a class="mb-3 flex items-center justify-center border-b-2 border-solid border-gray-100 py-6 outline-none"
             href="#!" data-te-ripple-init data-te-ripple-color="primary">
-            <span class="text-center font-bold"><br>Himainfra<br>2024</span>
+            <span class="text-center font-bold"><br>HIMAINFRA<br>2024</span>
         </a>
         <ul class="relative m-0 list-none px-[0.2rem] pb-12" data-te-sidenav-menu-ref>
             <li class="relative">

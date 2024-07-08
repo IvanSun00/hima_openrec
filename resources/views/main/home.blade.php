@@ -313,7 +313,7 @@
                             <h3 class="uppercase drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font1 text-3xl">
                                 Internal Development</h3>
                             <p class="text-md sm:text-lg text-white mt-2">Mewadahi hubungan dan pertumbuhan internal
-                                mahasisw Informatika.
+                                mahasiswa Informatika.
                             </p>
                         </div>
                     </div>
@@ -324,7 +324,7 @@
                             <img src="{{ asset('assets/img/cnb.png') }}" alt="" class="top-2 right-2">
                             <h3 class="uppercase drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font1 text-3xl">
                                 Creative n Branding</h3>
-                            <p class="text-md sm:text-lg text-white mt-2">Lalalala
+                            <p class="text-md sm:text-lg text-white mt-2">Mewadahi pengelolaan dan publikasi seputar kegiatan HIMA dan prodi Informatika melalui media sosial.
                             </p>
                         </div>
                     </div>
@@ -335,7 +335,7 @@
                             <img src="{{ asset('assets/img/is.png') }}" alt="" class="top-2 right-2">
                             <h3 class="uppercase drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font1 text-3xl">
                                 Information System</h3>
-                            <p class="text-md sm:text-lg text-white mt-2">Lalala
+                            <p class="text-md sm:text-lg text-white mt-2">Mewadahi pengelolaan website HIMA dan data dari mahasiswa prodi Informatika.
                             </p>
                         </div>
                     </div>
