@@ -81,7 +81,7 @@
                                             id="time:{{ $date['id'] }}:{{ $time }}:1:0"></div>
                                     @endif
                                 @elseif($stat == 2)
-                                    <div class="cursor-pointer hover:bg-yellow-500 transition duration-200 ease-in-out bg-black time"
+                                    <div class="bg-black time"
                                         id="time:{{ $date['id'] }}:{{ $time }}:2"></div>
                                 @else
                                     <div class="cursor-pointer hover:bg-yellow-500 transition duration-200 ease-in-out bg-red-500 time"
@@ -116,7 +116,7 @@
                                                 id="time:{{ $date['id'] }}:{{ $time }}:1:0"></div>
                                         @endif
                                     @elseif($stat == 2)
-                                        <div class="cursor-pointer hover:bg-yellow-500 transition duration-200 ease-in-out bg-black time"
+                                        <div class="bg-black time"
                                             id="time:{{ $date['id'] }}:{{ $time }}:2"></div>
                                     @else
                                         <div class="cursor-pointer hover:bg-yellow-500 transition duration-200 ease-in-out bg-red-500 time"
