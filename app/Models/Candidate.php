@@ -26,7 +26,7 @@ class Candidate extends Model
         'email',
         'major_id',
         'gpa',
-        'gender', 
+        'gender',
         'religion',
         'birth_place',
         'birth_date',
@@ -41,14 +41,15 @@ class Candidate extends Model
         'weakness',
         'experience',
         'documents',
+        'portfolio',
         'accepted_department',
         'priority_department1',
         'priority_department2',
         'stage',
 
-    ]; 
+    ];
 
-    
+
     protected $casts = ['documents' => 'array'];
 
     /**
@@ -77,6 +78,7 @@ class Candidate extends Model
             'strength' => 'required|string',
             'weakness' => 'required|string',
             'experience' => 'nullable|string',
+            'portfolio' => 'nullable|string|max:100|url',
             'documents' => 'nullable|array',
             'documents.*' => 'nullable|string|max:255', //kenapa
             'accepted_department' => 'nullable|uuid|exists:departments,id',
@@ -143,6 +145,9 @@ class Candidate extends Model
             'weakness.required' => 'Weakness is required',
             'weakness.string' => 'Weakness must be a string',
             'experience.string' => 'Experience must be a string',
+            'portfolio.string' => 'Portfolio must be a string',
+            'portfolio.max' => 'Portfolio must not exceed 100 characters',
+            'portfolio.url' => 'Portfolio must be a valid URL',
             'documents.array' => 'Documents must be an array',
             'documents.*.string' => 'Documents must be a string',
             'documents.*.max' => 'Documents must not exceed 255 characters',

@@ -300,14 +300,27 @@
                     </label>
                 </div>
 
+                <div class="relative mb-8" data-te-validate="input"
+                    @error('portfolio') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror
+                    data-te-input-wrapper-init>
+                    <input type="text" value="{{ old('portfolio') ?? ($form['portfolio'] ?? '') }}"
+                        {{ empty(old('portfolio')) && !array_key_exists('portfolio', $form) ? '' : 'data-te-input-state-active' }}
+                        class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                        id="exampleInput123" aria-describedby="emailHelp123" placeholder="Portfolio" name="portfolio" />
+                    <label for="emailHelp123"
+                        class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">
+                        Portfolio (khusus Department <span class="text-yellow-500">Creative n Branding</span> dan <span
+                            class="text-yellow-500">Information System</span>)
+                    </label>
+                </div>
+
 
                 <div class="grid sm:grid-cols-2 sm:gap-4">
                     <div class="relative mb-8" data-te-validate="input"
                         @error('priority_department1') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-                        <select
-                            {{ array_key_exists('id', $form) ? 'disabled' : '' }} data-te-select-init
+                        <select {{ array_key_exists('id', $form) ? 'disabled' : '' }} data-te-select-init
                             id="priority-department1" name="priority_department1">
-                            <option value="" selected hidden >-</option>
+                            <option value="" selected hidden>-</option>
                             @foreach ($departments as $department)
                                 <option value="{{ $department['id'] }}"
                                     {{ old('priority_department1') === $department['id'] || data_get($form, 'priority_department1', '-1') === $department['id'] ? 'selected' : '' }}>
@@ -320,8 +333,7 @@
 
                     <div class="relative mb-8" data-te-validate="input"
                         @error('priority_department2') data-te-validation-state="invalid" data-te-invalid-feedback="{{ $message }}" @enderror>
-                        <select
-                            {{ array_key_exists('id', $form) ? 'disabled' : '' }} data-te-select-init
+                        <select {{ array_key_exists('id', $form) ? 'disabled' : '' }} data-te-select-init
                             id="priority-department2" name="priority_department2" readonly>
                             {{-- <option value="" hidden></option> --}}
                             <option value="" selected>-</option>
@@ -337,7 +349,8 @@
 
                 @if (!array_key_exists('id', $form))
                     <div class="px-3 mb-8 text-white">
-                        <p style="font-size: 110%;"><span class="text-red-400">Perhatian!</span><br />Pilihan  <span class="text-red-400">Department</span> hanya dapat
+                        <p style="font-size: 110%;"><span class="text-red-400">Perhatian!</span><br />Pilihan <span
+                                class="text-red-400">Department</span> hanya dapat
                             dipilih <span class="text-red-400">satu kali</span> dan <span class="text-red-400">tidak dapat
                                 diubah</span> setelah submit!</p>
                     </div>
