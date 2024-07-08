@@ -70,11 +70,10 @@ Route::prefix('admin')->middleware(['session','admin'])->group(function () {
 
         // upload hasil interview
         Route::get('/upload/{candidate}', [AdminController::class, 'hasilInterview'])->name('admin.interview.start');
-        Route::post('store-document/{type}', [AdminController::class, 'storeHasilInterview'])->name('admin.interview.store')
-        ->where(
-            'type',
-            'hasil-interview'
-        );
+        Route::post('store-interview/{candidate}', [AdminController::class, 'storeHasilInterview'])->name('admin.interview.store');
+        // store comment
+        Route::post('/comment/{candidate}', [AdminController::class, 'storeComment'])->name('admin.interview.comment');
+
     });
 
 

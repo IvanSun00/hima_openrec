@@ -45,6 +45,8 @@ class Candidate extends Model
         'priority_department1',
         'priority_department2',
         'stage',
+        'comment',
+        'hasil_interview'
 
     ]; 
 
