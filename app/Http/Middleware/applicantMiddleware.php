@@ -19,7 +19,7 @@ class applicantMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!session('isAdmin')){
-            if(session('candidate_id') == null){
+            if(session('nrp') == null){
                 return redirect()->route('home');
             }
             // else{
