@@ -62,7 +62,7 @@
                     </b>{{ $applicant->priorityDepartment2['name'] }}</h1>
             @endisset
             @isset($applicant->portfolio)
-                <a href="{{ $applicant->portfolio }}" class="uppercase text-lg mb-3" target="_blank"><b class="text-xl font-bold italic">Porfolio :
+                <a href="{{ $applicant->portfolio }}" class="uppercase text-lg mb-3" target="_blank"><b class="text-xl font-bold italic">Portfolio :
                     </b><u class="text-blue-600 font-bold">Open Link</u></a>
             @endisset
         </div>
