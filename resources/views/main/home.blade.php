@@ -345,7 +345,7 @@
                         <div class="content">
                             <img src="{{ asset('assets/img/prd.png') }}" alt="" class="top-2 right-2">
                             <h3 class="uppercase drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font1 text-3xl">
-                                External Relation</h3>
+                                External Relationship</h3>
                             <p class="text-md sm:text-lg text-white mt-2">Mewadahi kebutuhan mahasiswa Informatika secara
                                 relasi dengan pihak-pihak luar dan dengan masyarakat.
                             </p>
