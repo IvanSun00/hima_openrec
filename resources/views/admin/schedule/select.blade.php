@@ -50,7 +50,7 @@
                 </div>
                 <div class="hidden" id="jamJadwal-{{ $jad }}">
                     <div class="grid-cols-2 grid bg-gray-50">
-                        @for ($i = 0; $i < 6; $i++)
+                        @for ($i = 0; $i < 7; $i++)
                             <div class="mt-0.5 rounded-sm grid grid-cols-3">
                                 <div class="col-span-2 py-3 text-center">
                                     @php
@@ -91,7 +91,7 @@
                             <div class="mt-0.5 rounded-sm grid grid-cols-3">
                                 <div class="col-span-2 py-3 text-center">
                                     @php
-                                        $time = 15 + $i;
+                                        $time = 14 + $i;
                                         if ($time < 20) {
                                             echo str($time) . ':30 - ' . ($time + 1) . ':30';
                                         }
