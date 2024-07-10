@@ -107,7 +107,7 @@
     <script>
         $(document).ready(function() {
             const colors = {
-                "Semua Department": "linear-gradient(90deg, #EF566A 0%, #627AF7 100%)",
+                "Semua": "linear-gradient(90deg, #EF566A 0%, #627AF7 100%)",
                 "External Relationship": "linear-gradient(90deg, hsla(2, 78%, 62%, 1) 0%, hsla(22, 100%, 78%, 1) 100%)",
                 "Information System": "linear-gradient(90deg, #5AB2F7 0%, #2FEAA8 100%)",
                 "Internal Development": "linear-gradient(90deg, hsla(278, 54%, 81%, 1) 0%, hsla(324, 57%, 77%, 1) 50%, hsla(20, 89%, 89%, 1) 100%)",
@@ -191,7 +191,7 @@
                 chartOptions,
             );
 
-            $(".changeDiv").eq(0).css("background", colors["Semua Department"])
+            $(".changeDiv").eq(0).css("background", colors["Semua"])
             getData("all")
 
             $(document.body).on("click", ".changeDiv", function() {
