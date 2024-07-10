@@ -76,7 +76,7 @@
     @if (Session::has('error'))
     Swal.fire({
         icon: 'error',
-        title: 'Berhasil',
+        title: 'Error',
         text: '{{ Session::get('error') }}',
         showConfirmButton: false,
         timer: 1700
