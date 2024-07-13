@@ -844,7 +844,7 @@ enum DocumentType: String
 {
     case Photo = 'Foto Diri 3x4';
     case Ktm = 'KTM / Profile Petra Mobile';
-    case Transkrip = 'Transkirp Nilai, SKKK, Bukti Kecurangan';
+    case Transkrip = 'Transkrip Nilai, SKKK, Bukti Kecurangan';
     case CV = 'CV';
     case MBTI = 'MBTI Test';
     case DISC = 'DISC Test';
