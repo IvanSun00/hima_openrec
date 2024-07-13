@@ -155,7 +155,7 @@ class CandidateController extends BaseController
 
         return ($filePath) ? $storeName : false;
     }
-    
+
 
     // tahap 3
     public function scheduleForm()
@@ -242,13 +242,13 @@ class CandidateController extends BaseController
     {
         $validated = $request->validated();
         $applicant = Candidate::where('email', session('email'))->first();
-        
+
         // apakah sudah pernah isi
         $schedule = Schedule::where('candidate_id', $applicant->id)->first();
         if ($schedule) {
             return redirect()->back()->with('error', 'Anda sudah memilih jadwal interview!');
         }
-        
+
         $pickedSchedule = [];
 
         // get available schedules
@@ -291,7 +291,7 @@ class CandidateController extends BaseController
             return redirect()->back()->with('error', 'Tidak ada interviewer yang tersedia!');
         }
 
-        $pickedSchedule[] = $schedules->where('admin_id', $admin->admin_id)->first();        
+        $pickedSchedule[] = $schedules->where('admin_id', $admin->admin_id)->first();
 
         DB::beginTransaction();
         try {
@@ -310,7 +310,7 @@ class CandidateController extends BaseController
             }
 
             $data['applicant'] = $applicant->load(['priorityDepartment1', 'priorityDepartment2']);
-            
+
             // dapet email lek ada yg daftar (skip sek)
             // $emailSettings = Setting::where('key', 'Email')->first();
             // // dd($emailSettings);
@@ -418,7 +418,7 @@ class CandidateController extends BaseController
     // public function canReschedule($date, $time)
     // {
     //     return true;
-        
+
     //     date_default_timezone_set('Asia/Jakarta');
 
     //     //max date to reschedule
@@ -468,15 +468,15 @@ class CandidateController extends BaseController
                 <button
                 type='button'
                 class='btn-terima block mb-2 rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]'
-                data-te-index='$i' data-te-priority='1' 
+                data-te-index='$i' data-te-priority='1'
                 >
                 Terima Pilihan1
                 </button>
-                
+
                 <button
                 type='button'
                 class='btn-tolak block rounded bg-danger px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
-                data-te-index='$i'data-te-priority='1' 
+                data-te-index='$i'data-te-priority='1'
                 >
                 Tolak Pilihan1
                 </button>
@@ -486,11 +486,11 @@ class CandidateController extends BaseController
                 <button
                 type='button'
                 class='btn-terima block mb-2 rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]'
-                data-te-index='$i' data-te-priority='2'  
+                data-te-index='$i' data-te-priority='2'
                 >
                 Terima Pilihan2
                 </button>
-                
+
                 <button
                 type='button'
                 class='btn-tolak block rounded bg-danger px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
@@ -501,27 +501,27 @@ class CandidateController extends BaseController
                 ";
             if ($a->acceptance_stage == 2) {
                 // diterima prioritas1
-                $temp['action1'] = "<div class='text-center w-full '> 
-                    <i class='fa-regular fa-circle-check fa-lg' style='color: #16a34a;'></i>        
+                $temp['action1'] = "<div class='text-center w-full '>
+                    <i class='fa-regular fa-circle-check fa-lg' style='color: #16a34a;'></i>
                 </div>
                 <h1 class='text-green-600 font-bold text-center'>Accepted</h1>
-                
+
                 <button
                 type='button' class='btn-cancel mx-auto block rounded bg-danger px-2 pb-2 pt-2.5 text-[0.5rem] font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
                 data-te-index='$i' data-te-priority='1'>cancel</button>";
             } else if ($a->acceptance_stage == 3) {
                 // ditolak prioritas1
-                $temp['action1'] = "<div class='text-center w-full '> 
+                $temp['action1'] = "<div class='text-center w-full '>
                 <i class=' fa-sharp fa-regular fa-circle-xmark fa-lg' style='color: #dc2626;'></i>
                 </div>
                 <h1 class='text-red-600 font-bold text-center'>Tertolak</h1>
-                
+
                 <button
                 type='button' class='btn-cancel mx-auto block rounded bg-danger px-2 pb-2 pt-2.5 text-[0.5rem] font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
                 data-te-index='$i' data-te-priority='1'>cancel</button>";
             } else if ($a->acceptance_stage == 4) {
                 // diterima prioritas 2
-                $temp['action1'] = "<div class='text-center w-full '> 
+                $temp['action1'] = "<div class='text-center w-full '>
                 <i class=' fa-sharp fa-regular fa-circle-xmark fa-lg' style='color: #dc2626;'></i>
                 </div>
                 <h1 class='text-red-600 font-bold text-center'>Tertolak</h1>
@@ -529,17 +529,17 @@ class CandidateController extends BaseController
                 type='button' class='btn-cancel mx-auto block rounded bg-danger px-2 pb-2 pt-2.5 text-[0.5rem] font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
                 data-te-index='$i' data-te-priority='1'>cancel</button>";
 
-                $temp['action2'] = "<div class='text-center w-full '> 
-                <i class='fa-regular fa-circle-check fa-lg' style='color: #16a34a;'></i>        
+                $temp['action2'] = "<div class='text-center w-full '>
+                <i class='fa-regular fa-circle-check fa-lg' style='color: #16a34a;'></i>
             </div>
             <h1 class='text-green-600 font-bold text-center'>Accepted</h1>
-            
+
             <button
                 type='button' class='btn-cancel mx-auto block rounded bg-danger px-2 pb-2 pt-2.5 text-[0.5rem] font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
                 data-te-index='$i' data-te-priority='2'>cancel</button>";
             } else if ($a->acceptance_stage == 5) {
                 // ditolak prioritas 2
-                $temp['action1'] = "<div class='text-center w-full '> 
+                $temp['action1'] = "<div class='text-center w-full '>
                 <i class=' fa-sharp fa-regular fa-circle-xmark fa-lg' style='color: #dc2626;'></i>
                 </div>
                 <h1 class='text-red-600 font-bold text-center'>Tertolak</h1>
@@ -547,7 +547,7 @@ class CandidateController extends BaseController
                 type='button' class='btn-cancel mx-auto block rounded bg-danger px-2 pb-2 pt-2.5 text-[0.5rem] font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#dc4c64] transition duration-150 ease-in-out hover:bg-danger-600 hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:bg-danger-600 focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] focus:outline-none focus:ring-0 active:bg-danger-700 active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.3),0_4px_18px_0_rgba(220,76,100,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(220,76,100,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(220,76,100,0.2),0_4px_18px_0_rgba(220,76,100,0.1)]'
                 data-te-index='$i' data-te-priority='1'>cancel</button>";
 
-                $temp['action2'] = "<div class='text-center w-full '> 
+                $temp['action2'] = "<div class='text-center w-full '>
                 <i class=' fa-sharp fa-regular fa-circle-xmark fa-lg' style='color: #dc2626;'></i>
                 </div>
                 <h1 class='text-red-600 font-bold text-center'>Tertolak</h1>
@@ -557,8 +557,8 @@ class CandidateController extends BaseController
             } else if ($a->acceptance_stage == 6) {
                 // terculik
                 $name = $a->acceptedDepartment->slug;
-                $temp['action1'] = "<div class='text-center w-full '> 
-                <i class='fa-solid fa-circle-info fa-lg' style='color: #fb923c;'></i>   
+                $temp['action1'] = "<div class='text-center w-full '>
+                <i class='fa-solid fa-circle-info fa-lg' style='color: #fb923c;'></i>
                 </div>
                 <h1 class='text-orange-500 font-bold text-center'>Terculik $name </h1>";
 
@@ -598,14 +598,14 @@ class CandidateController extends BaseController
                 data-te-index='$i' data-te-priority='3'>cancel</button>";
             } else if ($a->acceptance_stage == 6) {
                 $name = $a->acceptedDepartment->slug;
-                $temp['action'] = "<div class='text-center w-full '> 
-                <i class='fa-solid fa-circle-info fa-lg' style='color: #fb923c;'></i>   
+                $temp['action'] = "<div class='text-center w-full '>
+                <i class='fa-solid fa-circle-info fa-lg' style='color: #fb923c;'></i>
                 </div>
                 <h1 class='text-orange-500 font-bold text-center'>Terculik $name </h1>";
             } else {
                 $temp['action'] = "<button
                 type='button' class='btn-culik block mb-2 rounded bg-success px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]'
-                data-te-index='$i'>Culik Anak 
+                data-te-index='$i'>Culik Anak
                 </button>";
             }
             $data['applicant'][] = $temp;
@@ -844,7 +844,7 @@ enum DocumentType: String
 {
     case Photo = 'Foto Diri 3x4';
     case Ktm = 'KTM / Profile Petra Mobile';
-    case Transkrip = 'Transkirp Nilai, SKKK, Bukti Kecurangan';
+    case Transkrip = 'Transkrip Nilai, SKKK, Bukti Kecurangan';
     case CV = 'CV';
     case MBTI = 'MBTI Test';
     case DISC = 'DISC Test';
