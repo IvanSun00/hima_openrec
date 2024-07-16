@@ -26,9 +26,6 @@ class AuthController extends Controller
             $user = Socialite::driver('google')->user();
             
             $email = $user->email;
-            if($email == 'c14220210@john.petra.ac.id'){
-                $email = 'c14240029@john.petra.ac.id';
-            }
             $name = $user->name;
 
             // check apakah john.petra.ac.id
