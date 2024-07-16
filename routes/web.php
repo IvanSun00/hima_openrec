@@ -31,6 +31,7 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'loginView'])->name('login');
 Route::get('/loginRedirect', [AuthController::class , 'loginRedirect'])->name('google.redirect');
 Route::get('/loginProcess', [AuthController::class , 'loginProcess'])->name('google.callback');
+Route::get('/loginTesting', [AuthController::class , 'loginTesting']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/login/{nrp}/secret/{secret}', [AuthController::class, 'loginPaksa'])->name('loginPaksa');
 Route::get('/assets/upload/{path}', [AssetController::class, 'upload'])->where('path', '.*')->name('upload');

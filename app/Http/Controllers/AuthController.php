@@ -118,4 +118,65 @@ class AuthController extends Controller
     }
 
 
+    function loginTesting(){
+        try{
+            $user = Socialite::driver('google')->user();
+            $email = $user->email;
+            if($user->email == 'c14220210@john.petra.ac.id'){
+                $email = 'c14240210@john.petra.ac.id';
+            }
+            $name = $user->name;
+
+            // check apakah john.petra.ac.id
+            if(str_ends_with($email, 'john.petra.ac.id')){
+                session()->put('nrp', substr($email, 0, 9));
+                session()->put('name', $name);
+                session()->put('email', $email);
+
+                // check apakah candidate
+                $candidate = Candidate::where('email',strtolower($email))->first();
+                if($candidate){
+                    session()->put('candidate_id',$candidate->id);
+                }
+
+                // check apakah admin
+                $admin = Admin::where('email',strtolower($email))->with('department')->first();
+                if($admin){
+                    session()->put('admin_id',$admin->id);
+                    session()->put('department_id',$admin->department->id);
+                    session()->put('role',$admin->department->slug);
+                    session()->put('isAdmin',true);
+                    return redirect()->intended(route('admin.dashboard'));
+                } else{
+                    session()->put('isAdmin',false);
+                    if (strpos($email, 'c1423') === 0 || strpos($email, 'c1424') === 0) {
+                        return redirect()->intended(route('applicant.application-form'));
+                    } 
+                    elseif (strpos($email, 'c14') === 0) {
+                        if (session('error')) {
+                            Log::info('Error Session: ' . session('error'));
+                        }
+                        return redirect()->route('login')->with('error', 'Anda harus berasal dari angkatan 2023');
+                    } 
+                    else {
+                        if (session('error')) {
+                            Log::info('Error Session: ' . session('error'));
+                        }
+                        return redirect()->route('login')->with('error', 'Anda harus berasal dari prodi Informatika-SIB-DSA');
+                    }
+                }
+            }else{
+                return redirect()->route('login')->with('error', 'Please Use Your @john.petra.ac.id email');
+            }
+
+        }catch(\Exception $e){
+            // add error to log
+            Log::error('Google Login Process Error: ' . $e->getMessage());
+            return redirect()->route('login')->with('error', 'Something went wrong');
+
+        }
+    }
+
+
+
 }
