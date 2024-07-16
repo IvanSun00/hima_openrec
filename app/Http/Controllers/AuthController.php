@@ -24,10 +24,8 @@ class AuthController extends Controller
     function loginProcess(){
         try{
             $user = Socialite::driver('google')->user();
+            
             $email = $user->email;
-            if($email === 'c14220210@john.petra.ac.id'){
-                $email = 'c14240210@john.petra.ac.id';
-            }
             $name = $user->name;
 
             // check apakah john.petra.ac.id
