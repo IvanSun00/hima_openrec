@@ -49,14 +49,16 @@ class AuthController extends Controller
                     return redirect()->intended(route('admin.dashboard'));
                 } else{
                     session()->put('isAdmin',false);
-                    if (strpos($email, 'c1423') === 0) {
+                    if (strpos($email, 'c1423') === 0 || strpos($email, 'c1424') === 0) {
                         return redirect()->intended(route('applicant.application-form'));
-                    } elseif (strpos($email, 'c14') === 0) {
+                    } 
+                    elseif (strpos($email, 'c14') === 0) {
                         if (session('error')) {
                             Log::info('Error Session: ' . session('error'));
                         }
                         return redirect()->route('login')->with('error', 'Anda harus berasal dari angkatan 2023');
-                    } else {
+                    } 
+                    else {
                         if (session('error')) {
                             Log::info('Error Session: ' . session('error'));
                         }
